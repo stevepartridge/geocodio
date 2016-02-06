@@ -71,7 +71,3 @@ type GeocodeResult struct {
 		StatusCode   int    `json:"status_code"`
 	} `json:"-"`
 }
-
-type ReverseGeocodeResult struct {
-	Results []Address `json:"results"`
-}
