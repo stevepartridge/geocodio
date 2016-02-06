@@ -37,9 +37,8 @@ func (g *Geocodio) GeocodeAndReturnStateLegislativeDistricts(address string) (Ge
 
 // TODO: School District (school)
 
+// GeocodeReturnFields will geocode and includes additional fields in response
 /*
-	GeocodeReturnFields will geocode and
-	includes additional fields in response
  	See: http://geocod.io/docs/#toc_22
 	Note:
 		Each field counts as an additional lookup each

@@ -5,9 +5,9 @@ import (
 	"strconv"
 )
 
+// ReverseGeocode does a reverse geocode look up for a single coordinate
 /*
-	ReverseGeocode does a reverse geocode look up for a single coordinate
- 	See: http://geocod.io/docs/#toc_16
+	See: http://geocod.io/docs/#toc_16
 */
 func (g *Geocodio) ReverseGeocode(latitude, longitude float64) (GeocodeResult, error) {
 	// if there is an address here, they should probably think about moving
