@@ -46,6 +46,7 @@ func main() {
 ```
 
 Tests
+-------
 You can run the tests leveraging your API key as an enviroment variable from terminal (*nix).
 ```
 API_KEY=<YOUR_API_KEY> go test -v -cover
