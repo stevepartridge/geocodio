@@ -6,10 +6,10 @@ import (
 )
 
 func TestReverseGeocodeFullAddress(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(API_KEY)
+	Geocodio, err := geocodio.NewGeocodio(ApiKey())
 
 	if err != nil {
-		t.Error("Failed with API KEY set.", API_KEY, err)
+		t.Error("Failed with API KEY set.", ApiKey(), err)
 	}
 
 	result, err := Geocodio.ReverseGeocode(TEST_ADDRESS_2_LATITUDE, TEST_ADDRESS_2_LONGITUDE)
