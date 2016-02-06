@@ -5,10 +5,12 @@ import (
 	"strconv"
 )
 
-// Reverse Geocoding single coordinate
-// See: http://geocod.io/docs/#toc_16
+/*
+	Reverse Geocoding single coordinate
+ 	See: http://geocod.io/docs/#toc_16
+*/
 func (g *Geocodio) ReverseGeocode(latitude, longitude float64) (GeocodeResult, error) {
-	// if there is an address here, should probably think about moving
+	// if there is an address here, they should probably think about moving
 	// regardless, we'll consider it an error
 	if latitude == 0.0 && longitude == 0.0 {
 		return GeocodeResult{}, errors.New("address must not be empty")

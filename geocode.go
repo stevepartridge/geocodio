@@ -20,23 +20,29 @@ func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 	return results, nil
 }
 
+// Geocode and include Timezone in the fields response
 func (g *Geocodio) GeocodeAndReturnTimezone(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "timezone")
 }
 
+// Geocode and include Congressional District in the fields response
 func (g *Geocodio) GeocodeAndReturnCongressionalDistrict(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "cd")
 }
 
+// Geocode and include State Legislative Districts in the fields response
 func (g *Geocodio) GeocodeAndReturnStateLegislativeDistricts(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "stateleg")
 }
 
 // TODO: School District (school)
 
-// Include additional fields
-// Note: each field counts as an additional lookup each
-// See: http://geocod.io/docs/#toc_22
+/*
+	Include additional fields in response
+ 	See: http://geocod.io/docs/#toc_22
+	Note:
+		Each field counts as an additional lookup each
+*/
 func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (GeocodeResult, error) {
 	if address == "" {
 		return GeocodeResult{}, errors.New("address can not be empty")
