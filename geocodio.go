@@ -5,11 +5,11 @@ import (
 )
 
 const (
-	// Geocod.io Base URL
+	// GeocodioAPIBaseURLv1 is the Geocod.io Base URL
 	GeocodioAPIBaseURLv1 = "https://api.geocod.io/v1"
 )
 
-// Helper to create new Geocodio pointer
+// NewGeocodio is a helper to create new Geocodio pointer
 func NewGeocodio(apiKey string) (*Geocodio, error) {
 
 	if apiKey == "" {

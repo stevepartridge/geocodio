@@ -20,17 +20,17 @@ func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 	return results, nil
 }
 
-// Geocode and include Timezone in the fields response
+// GeocodeAndReturnTimezone will geocode and include Timezone in the fields response
 func (g *Geocodio) GeocodeAndReturnTimezone(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "timezone")
 }
 
-// Geocode and include Congressional District in the fields response
+// GeocodeAndReturnCongressionalDistrict will geocode and include Congressional District in the fields response
 func (g *Geocodio) GeocodeAndReturnCongressionalDistrict(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "cd")
 }
 
-// Geocode and include State Legislative Districts in the fields response
+// GeocodeAndReturnStateLegislativeDistricts will geocode and include State Legislative Districts in the fields response
 func (g *Geocodio) GeocodeAndReturnStateLegislativeDistricts(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "stateleg")
 }
@@ -38,7 +38,8 @@ func (g *Geocodio) GeocodeAndReturnStateLegislativeDistricts(address string) (Ge
 // TODO: School District (school)
 
 /*
-	Include additional fields in response
+	GeocodeReturnFields will geocode and
+	includes additional fields in response
  	See: http://geocod.io/docs/#toc_22
 	Note:
 		Each field counts as an additional lookup each

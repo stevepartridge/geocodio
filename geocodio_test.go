@@ -26,7 +26,7 @@ const (
 	AddressTestTwoLongitude  = -76.9990361
 )
 
-func ApiKey() string {
+func APIKey() string {
 	if DefaultAPIKey != "YOUR_API_KEY" {
 		return DefaultAPIKey
 	}
@@ -34,7 +34,7 @@ func ApiKey() string {
 }
 
 func TestGeocodioWithApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio(ApiKey())
+	_, err := geocodio.NewGeocodio(APIKey())
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}

@@ -1,5 +1,6 @@
 package geocodio
 
+// Geocodio is the base struct
 type Geocodio struct {
 	ApiKey string
 }
