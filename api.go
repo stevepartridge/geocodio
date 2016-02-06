@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+// Call
 // Basic call (GET) method to API
 func (g *Geocodio) Call(path string, query map[string]string) (GeocodeResult, error) {
 
