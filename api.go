@@ -10,8 +10,7 @@ import (
 	"strings"
 )
 
-// Call
-// Basic call (GET) method to API
+// Call uses basic (GET) method to make a request to the API
 func (g *Geocodio) Call(path string, query map[string]string) (GeocodeResult, error) {
 
 	if strings.Index(path, "/") != 0 {
