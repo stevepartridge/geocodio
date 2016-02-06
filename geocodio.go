@@ -17,7 +17,7 @@ func NewGeocodio(apiKey string) (*Geocodio, error) {
 	}
 
 	newGeocodio := new(Geocodio)
-	newGeocodio.ApiKey = apiKey
+	newGeocodio.APIKey = apiKey
 
 	return newGeocodio, nil
 }
