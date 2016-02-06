@@ -10,7 +10,7 @@ func TestGeocodeFullAddress(t *testing.T) {
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.Geocode(AddressTestOne_Full)
+	result, err := Geocodio.Geocode(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -35,7 +35,7 @@ func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.GeocodeAndReturnTimezone(AddressTestOne_Full)
+	result, err := Geocodio.GeocodeAndReturnTimezone(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -69,7 +69,7 @@ func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
 		t.Error("Failed with API KEY set.", err)
 		t.Fail()
 	}
-	result, err := Geocodio.GeocodeAndReturnCongressionalDistrict(AddressTestOne_Full)
+	result, err := Geocodio.GeocodeAndReturnCongressionalDistrict(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -109,7 +109,7 @@ func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
 		t.Fail()
 	}
 
-	result, err := Geocodio.GeocodeAndReturnStateLegislativeDistricts(AddressTestOne_Full)
+	result, err := Geocodio.GeocodeAndReturnStateLegislativeDistricts(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -147,7 +147,7 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.GeocodeReturnFields(AddressTestOne_Full, "timezone", "cd")
+	result, err := Geocodio.GeocodeReturnFields(AddressTestOneFull, "timezone", "cd")
 	if err != nil {
 		t.Error(err)
 	}
