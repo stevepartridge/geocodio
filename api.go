@@ -10,13 +10,14 @@ import (
 	"strings"
 )
 
+// Basic call (GET) method to API
 func (g *Geocodio) Call(path string, query map[string]string) (GeocodeResult, error) {
 
 	if strings.Index(path, "/") != 0 {
 		return GeocodeResult{}, errors.New("Path must start with a forward slash: ' / ' ")
 	}
 
-	_url := GEOCODIO_API_V1_BASE_URL + path + "?api_key=" + g.ApiKey
+	_url := GeocodioApiBaseURLv1 + path + "?api_key=" + g.ApiKey
 
 	for k, v := range query {
 		_url = _url + "&" + k + "=" + url.QueryEscape(v)

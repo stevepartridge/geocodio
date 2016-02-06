@@ -5,7 +5,8 @@ import (
 )
 
 const (
-	GEOCODIO_API_V1_BASE_URL = "https://api.geocod.io/v1"
+	// Geocod.io Base URL
+	GeocodioApiBaseURLv1 = "https://api.geocod.io/v1"
 )
 
 // Helper to create new Geocodio pointer
