@@ -3,7 +3,6 @@ package geocodio
 import (
 	"encoding/json"
 	"errors"
-	// "fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -44,6 +43,7 @@ func (g *Geocodio) Call(path string, query map[string]string) (GeocodeResult, er
 	result.Debug.RequestedURL = _url
 	result.Debug.Status = resp.Status
 	result.Debug.StatusCode = resp.StatusCode
+	result.Debug.RawResponse = body
 
 	err = json.Unmarshal(body, &result)
 	if err != nil {
