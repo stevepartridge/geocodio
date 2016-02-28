@@ -19,12 +19,14 @@ type Components struct {
 	Number          string `json:"number"`
 	Street          string `json:"street"`
 	Suffix          string `json:"suffix"`
+	SecondaryNumber string `json:"secondarynumber"`
+	SecondaryUnit   string `json:"secondaryunit"`
 	PostDirectional string `json:"postdirectional"`
 	FormattedStreet string `json:"formatted_street"`
 	City            string `json:"city"`
-	County          string `json:"county"`
 	State           string `json:"state"`
 	Zip             string `json:"zip"`
+	County          string `json:"county"`
 	Country         string `json:"country"`
 }
 
@@ -63,10 +65,14 @@ type StateLegislativeDistrict struct {
 	DistrictNumber string `json:"district_number"`
 }
 
+// GeocodeResponse
 type GeocodeResult struct {
-	Input   Components `json:"input,omitempty"`
-	Results []Address  `json:"results"`
+	Input struct {
+		AddressComponents Components `json:"address_components"`
+	} `json:"input,omitempty"`
+	Results []Address `json:"results"`
 	Debug   struct {
+		RawResponse  []byte `json:"-"`
 		RequestedURL string `json:"requested_url"`
 		Status       string `json:"status"`
 		StatusCode   int    `json:"status_code"`
