@@ -1,5 +1,5 @@
 # geocodio
-[![GoDoc](https://godoc.org/github.com/stevepartridge/geocodio?status.svg)](https://godoc.org/github.com/stevepartridge/geocodio)
+[![GoDoc](https://godoc.org/github.com/stevepartridge/geocodio?status.svg)](https://godoc.org/github.com/stevepartridge/geocodio) [![Go Report Card](https://goreportcard.com/badge/github.com/stevepartridge/geocodio)](https://goreportcard.com/report/github.com/stevepartridge/geocodio)
 
 Go client for [Geocodio](http://geocod.io) API v1
 
