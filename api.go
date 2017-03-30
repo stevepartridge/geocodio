@@ -24,8 +24,6 @@ func (g *Geocodio) Call(path string, query map[string]string) (GeocodeResult, er
 		_url = _url + "&" + k + "=" + url.QueryEscape(v)
 	}
 
-	// fmt.Println("_url", _url)
-
 	timeout := time.Duration(10 * time.Second)
 	client := http.Client{
 		Timeout: timeout,
@@ -33,13 +31,11 @@ func (g *Geocodio) Call(path string, query map[string]string) (GeocodeResult, er
 
 	resp, err := client.Get(_url)
 
-	if resp != nil {
-		defer resp.Body.Close()
-	}
-
 	if err != nil {
 		return GeocodeResult{}, err
 	}
+
+	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 
