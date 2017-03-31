@@ -17,7 +17,7 @@ func TestReverseGeocodeFullAddress(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(result.Debug)
+	// t.Log(result.ResponseAsString())
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -27,11 +27,13 @@ func TestReverseGeocodeFullAddress(t *testing.T) {
 		t.Error("Results found length is less than 3", len(result.Results))
 	}
 
-	if result.Results[0].Location.Latitude != 38.900203 {
-		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, 38.900203)
+	if len(result.Results) == 0 {
+		t.Error("No results were found.")
+		return
 	}
 
-	// if result.Results[0].Location.Longitude != ​-76.999507 {
-	//    t.Error("Location longitude does not match", result.Results[0].Location.Longitude, ​"-76.999507")
-	//  }
+	if result.Results[0].Formatted != "101 State Hwy 58, Nashville, NC 27856" {
+		t.Error("Location latitude does not match", result.Results[0].Formatted, "101 State Hwy 58, Nashville, NC 27856")
+	}
+
 }
