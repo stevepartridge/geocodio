@@ -78,3 +78,7 @@ type GeocodeResult struct {
 		StatusCode   int    `json:"status_code"`
 	} `json:"-"`
 }
+
+func (self *GeocodeResult) ResponseAsString() string {
+	return string(self.Debug.RawResponse)
+}
