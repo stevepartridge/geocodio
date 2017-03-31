@@ -22,8 +22,8 @@ const (
 	AddressTestTwoStreet     = "H St NE"
 	AddressTestTwoCity       = "Washington"
 	AddressTestTwoState      = "DC"
-	AddressTestTwoLatitude   = 38.9002898
-	AddressTestTwoLongitude  = -76.9990361
+	AddressTestTwoLatitude   = 35.9746000
+	AddressTestTwoLongitude  = -77.9658000
 )
 
 func APIKey() string {

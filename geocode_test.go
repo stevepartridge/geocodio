@@ -15,7 +15,7 @@ func TestGeocodeFullAddress(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(result.Debug)
+	// t.Log(result.ResponseAsString())
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -40,7 +40,7 @@ func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(result.Debug)
+	// t.Log(result.ResponseAsString())
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -74,7 +74,7 @@ func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(result.Debug)
+	// t.Log(result.ResponseAsString())
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -114,7 +114,7 @@ func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(result.Debug)
+	// t.Log(result.ResponseAsString())
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0", result)
@@ -152,7 +152,7 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 		t.Error(err)
 	}
 
-	t.Log(result.Debug)
+	// t.Log(result.ResponseAsString())
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
