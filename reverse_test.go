@@ -37,3 +37,14 @@ func TestReverseGeocodeFullAddress(t *testing.T) {
 	}
 
 }
+
+func TestReverseGeocodeWithoutLatLng(t *testing.T) {
+	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+	_, err = Geocodio.ReverseGeocode(0.0, 0.0)
+	if err == nil {
+		t.Error("Error should not be nil.")
+	}
+}

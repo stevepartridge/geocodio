@@ -1,9 +1,38 @@
 package geocodio_test
 
 import (
-	"github.com/stevepartridge/geocodio"
+	"fmt"
 	"testing"
+
+	"github.com/stevepartridge/geocodio"
 )
+
+func TestGeocodeWithEmptyAddress(t *testing.T) {
+	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+	_, err = Geocodio.Geocode("")
+	if err == nil {
+		t.Error("Error should not be nil.")
+	}
+}
+
+func TestGeocodeDebugResponseAsString(t *testing.T) {
+	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+	result, err := Geocodio.Geocode(AddressTestOneFull)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if result.ResponseAsString() == "" {
+		t.Error("Response should be a valid string.")
+	}
+
+}
 
 func TestGeocodeFullAddress(t *testing.T) {
 	Geocodio, err := geocodio.NewGeocodio(APIKey())
@@ -21,12 +50,12 @@ func TestGeocodeFullAddress(t *testing.T) {
 		t.Error("Results length is 0")
 	}
 
-	if result.Results[0].Location.Latitude != 33.739464 {
-		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, 33.739464)
+	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
+		t.Errorf("Location latitude %f does not match %f", result.Results[0].Location.Latitude, AddressTestOneLatitude)
 	}
 
-	if result.Results[0].Location.Longitude != -116.40803 {
-		t.Error("Location longitude does not match", result.Results[0].Location.Longitude, -116.40803)
+	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
+		t.Errorf("Location longitude %f does not match %f", result.Results[0].Location.Longitude, AddressTestOneLongitude)
 	}
 }
 
@@ -46,12 +75,12 @@ func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
 		t.Error("Results length is 0")
 	}
 
-	if result.Results[0].Location.Latitude != 33.739464 {
-		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, 33.739464)
+	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
+		t.Errorf("Location latitude %f does not match %f", result.Results[0].Location.Latitude, AddressTestOneLatitude)
 	}
 
-	if result.Results[0].Location.Longitude != -116.40803 {
-		t.Error("Location longitude does not match", result.Results[0].Location.Longitude, -116.40803)
+	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
+		t.Errorf("Location longitude %f does not match %f", result.Results[0].Location.Longitude, AddressTestOneLongitude)
 	}
 
 	if result.Results[0].Fields.Timezone.Name == "" {
@@ -81,15 +110,17 @@ func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
 		t.Fail()
 	}
 
-	if result.Results[0].Location.Latitude != 33.739464 {
-		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, 33.739464)
+	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
+		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, AddressTestOneLatitude)
 		t.Fail()
 	}
 
-	if result.Results[0].Location.Longitude != -116.40803 {
-		t.Error("Location longitude does not match", result.Results[0].Location.Longitude, -116.40803)
+	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
+		t.Error("Location longitude does not match", result.Results[0].Location.Longitude, AddressTestOneLongitude)
 		t.Fail()
 	}
+
+	fmt.Printf("data %+v", result.Results)
 
 	if result.Results[0].Fields.CongressionalDistrict.Name == "" {
 		t.Error("Congressional District field not found", result.Results[0].Fields.CongressionalDistrict)
@@ -121,13 +152,13 @@ func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
 		t.Fail()
 	}
 
-	if result.Results[0].Location.Latitude != 33.739464 {
-		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, 33.739464)
+	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
+		t.Errorf("Location latitude %f does not match %f", result.Results[0].Location.Latitude, AddressTestOneLatitude)
 		t.Fail()
 	}
 
-	if result.Results[0].Location.Longitude != -116.40803 {
-		t.Error("Location longitude does not match", result.Results[0].Location.Longitude, -116.40803)
+	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
+		t.Errorf("Location longitude %f does not match %f", result.Results[0].Location.Longitude, AddressTestOneLongitude)
 		t.Fail()
 	}
 
@@ -158,12 +189,12 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 		t.Error("Results length is 0")
 	}
 
-	if result.Results[0].Location.Latitude != 33.739464 {
-		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, 33.739464)
+	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
+		t.Error("Location latitude does not match", result.Results[0].Location.Latitude, AddressTestOneLatitude)
 	}
 
-	if result.Results[0].Location.Longitude != -116.40803 {
-		t.Error("Location longitude does not match", result.Results[0].Location.Longitude, -116.40803)
+	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
+		t.Error("Location longitude does not match", result.Results[0].Location.Longitude, AddressTestOneLongitude)
 	}
 
 	if result.Results[0].Fields.Timezone.Name == "" {
