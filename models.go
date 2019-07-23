@@ -28,6 +28,8 @@ type Components struct {
 	Zip             string `json:"zip"`
 	County          string `json:"county"`
 	Country         string `json:"country"`
+	PreDirectional  string `json:"PreDirectional"`
+	Prefix          string `json:"Prefix"`
 }
 
 type Location struct {
