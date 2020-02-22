@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/stevepartridge/geocodio"
 )
 
 func main() {
 
-	Geocodio, err := geocodio.NewGeocodio("YOUR_API_KEY")
+	gc, err := geocodio.NewGeocodio("YOUR_API_KEY")
 	if err != nil {
 		panic(err)
 	}
@@ -18,7 +19,7 @@ func main() {
 	}
 	fmt.Printf("Geocode Result %v", result)
 
-	resultReverse, err := Geocodio.ReverseGeocode(38.9002898, -76.9990361)
+	resultReverse, err := gc.ReverseGeocode(38.9002898, -76.9990361)
 	if err != nil {
 		panic(err)
 	}

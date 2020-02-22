@@ -1,11 +1,13 @@
 # geocodio
+
 [![GoDoc](https://godoc.org/github.com/stevepartridge/geocodio?status.svg)](https://godoc.org/github.com/stevepartridge/geocodio) [![Go Report Card](https://goreportcard.com/badge/github.com/stevepartridge/geocodio)](https://goreportcard.com/report/github.com/stevepartridge/geocodio)
 
 Go client for [Geocodio](http://geocod.io) API v1
 
-Usage
--------
+## Usage
+
 ### Geocode
+
 ```go
 import(
   "github.com/stevepartridge/geocodio"
@@ -13,11 +15,11 @@ import(
 )
 
 func main() {
-  Geocodio, err := geocodio.NewGeocodio("YOUR_API_KEY")
+  gc, err := geocodio.NewGeocodio("YOUR_API_KEY")
 	if err != nil {
 		panic(err)
 	}
-	result, err := Geocodio.Geocode("42370 Bob Hope Dr, Rancho Mirage, CA")
+	result, err := gc.Geocode("42370 Bob Hope Dr, Rancho Mirage, CA")
 	if err != nil {
 		panic(err)
 	}
@@ -26,6 +28,7 @@ func main() {
 ```
 
 ### Reverse Geocode
+
 ```go
 import(
   "github.com/stevepartridge/geocodio"
@@ -33,11 +36,11 @@ import(
 )
 
 func main() {
-  Geocodio, err := geocodio.NewGeocodio("YOUR_API_KEY")
+  gc, err := geocodio.NewGeocodio("YOUR_API_KEY")
 	if err != nil {
 		panic(err)
 	}
-	result, err := Geocodio.ReverseGeocode(38.9002898, -76.9990361)
+	result, err := gc.ReverseGeocode(38.9002898, -76.9990361)
 	if err != nil {
 		panic(err)
 	}
@@ -45,9 +48,10 @@ func main() {
 }
 ```
 
-Tests
--------
-You can run the tests leveraging your API key as an enviroment variable from terminal (*nix).
+## Tests
+
+You can run the tests leveraging your API key as an enviroment variable from terminal (\*nix).
+
 ```
 API_KEY=<YOUR_API_KEY> go test -v -cover
 ```

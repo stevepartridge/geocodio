@@ -1,8 +1,9 @@
 package geocodio_test
 
 import (
-	"github.com/stevepartridge/geocodio"
 	"testing"
+
+	"github.com/stevepartridge/geocodio"
 )
 
 func TestReverseGeocodeFullAddress(t *testing.T) {
