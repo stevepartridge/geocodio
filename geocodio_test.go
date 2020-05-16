@@ -28,14 +28,14 @@ const (
 	AddressTestOneLatitude   = 38.886672
 	AddressTestOneLongitude  = -77.094735
 
-	AddressTestTwoFull       = "500 H St NE, Washington, DC 20002"
-	AddressTestTwoWithoutZip = "500 H St NE, Washington, DC"
-	AddressTestTwoNumber     = "500"
-	AddressTestTwoStreet     = "H St NE"
-	AddressTestTwoCity       = "Washington"
-	AddressTestTwoState      = "DC"
-	AddressTestTwoLatitude   = 35.9746000
-	AddressTestTwoLongitude  = -77.9658000
+	AddressTestTwoFull       = "100 Legends Way, Boston, MA 02114"
+	AddressTestTwoWithoutZip = "100 Legends Way, Boston, MA"
+	AddressTestTwoNumber     = "100"
+	AddressTestTwoStreet     = "Legends Way"
+	AddressTestTwoCity       = "Boston"
+	AddressTestTwoState      = "MA"
+	AddressTestTwoLatitude   = 42.36629
+	AddressTestTwoLongitude  = -71.0622
 )
 
 func APIKey() string {
