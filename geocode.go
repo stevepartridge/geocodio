@@ -25,6 +25,11 @@ func (g *Geocodio) GeocodeAndReturnTimezone(address string) (GeocodeResult, erro
 	return g.GeocodeReturnFields(address, "timezone")
 }
 
+// GeocodeAndReturnZip4 will geocode and include zip4 in the fields response
+func (g *Geocodio) GeocodeAndReturnZip4(address string) (GeocodeResult, error) {
+	return g.GeocodeReturnFields(address, "zip4")
+}
+
 // GeocodeAndReturnCongressionalDistrict will geocode and include Congressional District in the fields response
 func (g *Geocodio) GeocodeAndReturnCongressionalDistrict(address string) (GeocodeResult, error) {
 	return g.GeocodeReturnFields(address, "cd")
@@ -50,7 +55,7 @@ func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (Geocod
 
 	fieldsCommaSeparated := strings.Join(fields, ",")
 
-	results, err := g.Call("/geocode",
+	result, err := g.Call("/geocode",
 		map[string]string{
 			"q":      address,
 			"fields": fieldsCommaSeparated,
@@ -59,5 +64,5 @@ func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (Geocod
 		return GeocodeResult{}, err
 	}
 
-	return results, nil
+	return result, nil
 }
