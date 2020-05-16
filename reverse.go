@@ -1,7 +1,6 @@
 package geocodio
 
 import (
-	"errors"
 	"strconv"
 )
 
@@ -13,16 +12,18 @@ func (g *Geocodio) ReverseGeocode(latitude, longitude float64) (GeocodeResult, e
 	// if there is an address here, they should probably think about moving
 	// regardless, we'll consider it an error
 	if latitude == 0.0 && longitude == 0.0 {
-		return GeocodeResult{}, errors.New("address must not be empty")
+		return GeocodeResult{}, ErrReverseGecodeMissingLatLng
 	}
 
 	latStr := strconv.FormatFloat(latitude, 'f', 9, 64)
 	lngStr := strconv.FormatFloat(longitude, 'f', 9, 64)
 
-	results, err := g.Call("/reverse", map[string]string{"q": latStr + "," + lngStr})
+	result, err := g.Call("/reverse", map[string]string{"q": latStr + "," + lngStr})
 	if err != nil {
 		return GeocodeResult{}, err
 	}
 
-	return results, nil
+	// fmt.Println(result.Debug.RequestedURL)
+
+	return result, nil
 }
