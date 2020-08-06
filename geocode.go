@@ -5,6 +5,22 @@ import (
 	"strings"
 )
 
+// GeocodeResponse
+type GeocodeResult struct {
+	Input   Input     `json:"input,omitempty"`
+	Results []Address `json:"results"`
+	Debug   struct {
+		RawResponse  []byte `json:"-"`
+		RequestedURL string `json:"requested_url"`
+		Status       string `json:"status"`
+		StatusCode   int    `json:"status_code"`
+	} `json:"-"`
+}
+
+func (self *GeocodeResult) ResponseAsString() string {
+	return string(self.Debug.RawResponse)
+}
+
 // Geocode single address
 // See: http://geocod.io/docs/#toc_4
 func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
