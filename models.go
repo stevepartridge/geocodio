@@ -60,7 +60,7 @@ type Fields struct {
 	CongressionalDistricts    []CongressionalDistrict   `json:"congressional_districts,omitempty"` // v1.1+
 	StateLegislativeDistricts StateLegislativeDistricts `json:"state_legislative_districts,omitempty"`
 	SchoolDistricts           SchoolDistricts           `json:"school_districts,omitempty"`
-	Census                    Census                    `json:"census,omitempty"`
+	Census                    CensusResults             `json:"census,omitempty"`
 	ACS                       CensusACS                 `json:"acs,omitempty"`
 }
 
