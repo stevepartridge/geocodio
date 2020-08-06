@@ -7,38 +7,38 @@ import (
 )
 
 func TestGeocodeWithEmptyAddress(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	_, err = Geocodio.Geocode("")
+	_, err = gio.Geocode("")
 	if err == nil {
 		t.Error("Error should not be nil.")
 	}
 }
 
 func TestGeocodeDebugResponseAsString(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.Geocode(AddressTestOneFull)
+	result, err := gio.Geocode(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
 
 	if result.ResponseAsString() == "" {
-		t.Error("Response should be a valid string.")
+		t.Error("Response should be a valid stringio.")
 	}
 
 }
 
 func TestGeocodeFullAddress(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.Geocode(AddressTestOneFull)
+	result, err := gio.Geocode(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -59,11 +59,11 @@ func TestGeocodeFullAddress(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.GeocodeAndReturnTimezone(AddressTestOneFull)
+	result, err := gio.GeocodeAndReturnTimezone(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -92,7 +92,7 @@ func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningZip4(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	Geocodio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
@@ -101,7 +101,7 @@ func TestGeocodeFullAddressReturningZip4(t *testing.T) {
 		t.Error(err)
 	}
 
-	// fmt.Println(result.Debug.RequestedURL)
+	// fmt.Println(result.Debugio.RequestedURL)
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -125,7 +125,7 @@ func TestGeocodeFullAddressReturningZip4(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	Geocodio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 		t.Fail()
@@ -167,7 +167,7 @@ func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	Geocodio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 		t.Fail()
@@ -207,7 +207,7 @@ func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	Geocodio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
@@ -216,7 +216,7 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 		t.Error(err)
 	}
 
-	// fmt.Println(result.Debug.RequestedURL)
+	// fmt.Println(result.Debugio.RequestedURL)
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")

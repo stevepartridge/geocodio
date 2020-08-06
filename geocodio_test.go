@@ -1,15 +1,12 @@
 package geocodio_test
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stevepartridge/geocodio"
 )
 
 const (
-	DefaultAPIKey = "YOUR_API_KEY"
-
 	// AddressTestOneFull       = "42370 Bob Hope Dr, Rancho Mirage, CA 92270"
 	// AddressTestOneWithoutZip = "42370 Bob Hope Dr, Rancho Mirage, CA"
 	// AddressTestOneNumber     = "42370"
@@ -38,22 +35,15 @@ const (
 	AddressTestTwoLongitude  = -71.0622
 )
 
-func APIKey() string {
-	if DefaultAPIKey != "YOUR_API_KEY" {
-		return DefaultAPIKey
-	}
-	return os.Getenv("API_KEY")
-}
-
 func TestGeocodioWithApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio(APIKey())
+	_, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
 }
 
 func TestGeocodioWithoutApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio("")
+	_, err := geocodio.New("")
 	if err == nil {
 		t.Error("Did not through error when omitting API KEY")
 	}
