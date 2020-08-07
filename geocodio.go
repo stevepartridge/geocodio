@@ -1,6 +1,7 @@
 package geocodio
 
 import (
+	"fmt"
 	"os"
 	"strings"
 )
@@ -40,13 +41,23 @@ func New(apiKey ...string) (*Geocodio, error) {
 		return nil, ErrMissingApiKey
 	}
 
-	return NewGeocodio(key)
+	g := Geocodio{
+		APIKey: key,
+	}
+
+	return &g, nil
 }
 
 // NewGeocodio is a helper to create new Geocodio reference
 // since 1.6+ this is kept for backwards compatiblity
-// after 2+ this will be deprecated
+// this is deprecatd and will be removed in 2+
 func NewGeocodio(apiKey string) (*Geocodio, error) {
+
+	fmt.Println(`
+NewGeocodio() is deprecated and will be removed in 2+
+Use geocodio.New("YOUR_API_KEY") 
+or with the environment variable GEOCODIO_API_KEY
+Use geocodio.New()`)
 
 	if apiKey == "" {
 		return nil, ErrMissingApiKey
