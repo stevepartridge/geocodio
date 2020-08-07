@@ -1,4 +1,4 @@
-.PHONY: test test-coverage
+.PHONY: tests test-coverage
 
 tests:
 	@./_scripts/tests_unit.sh
