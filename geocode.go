@@ -25,10 +25,25 @@ func (self *GeocodeResult) ResponseAsString() string {
 // See: http://geocod.io/docs/#toc_4
 func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 	if address == "" {
-		return GeocodeResult{}, errors.New("address must not be empty")
+		return GeocodeResult{}, ErrAddressIsEmpty
 	}
 
-	results, err := g.Call("/geocode", map[string]string{"q": address})
+	results, err := g.get("/geocode", map[string]string{"q": address})
+	if err != nil {
+		return GeocodeResult{}, err
+	}
+
+	return results, nil
+}
+
+// Geocode batch addresses
+func (g *Geocodio) GeocodeBatch(addresses ...string) (GeocodeResult, error) {
+	if len(addresses) == 0 {
+		return GeocodeResult{}, ErrBatchAddressesIsEmpty
+	}
+
+	// TODO: support limit
+	results, err := g.post("/geocode", addresses, nil)
 	if err != nil {
 		return GeocodeResult{}, err
 	}
