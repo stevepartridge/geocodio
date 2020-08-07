@@ -1,6 +1,7 @@
 package geocodio_test
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stevepartridge/geocodio"
@@ -49,4 +50,9 @@ func TestGeocodioWithoutApiKey(t *testing.T) {
 	}
 }
 
-// 1109+N+Highland+St%2c+Arlington+VA
+func TestGeocodioDeprecatedWithApiKey(t *testing.T) {
+	_, err := geocodio.NewGeocodio(os.Getenv("API_KEY"))
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+}
