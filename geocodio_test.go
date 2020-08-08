@@ -34,9 +34,19 @@ const (
 	AddressTestTwoState      = "MA"
 	AddressTestTwoLatitude   = 42.36629
 	AddressTestTwoLongitude  = -71.0622
+
+	AddressTestThreeFull       = "19 Tony Gwynn Drive, San Diego, CA 02114"
+	AddressTestThreeWithoutZip = "19 Tony Gwynn Drive, San Diego, CA"
+	AddressTestThreeNumber     = "19"
+	AddressTestThreeStreet     = "Tony Gwynn Drive"
+	AddressTestThreeCity       = "San Diego"
+	AddressTestThreeState      = "CA"
+	AddressTestThreeLatitude   = 32.708343
+	AddressTestThreeLongitude  = -117.158124
 )
 
 func TestGeocodioWithApiKey(t *testing.T) {
+
 	_, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
@@ -44,15 +54,64 @@ func TestGeocodioWithApiKey(t *testing.T) {
 }
 
 func TestGeocodioWithoutApiKey(t *testing.T) {
+
+	key := os.Getenv(geocodio.EnvGeocodioAPIKey)
+	if key == "" && os.Getenv(geocodio.EnvOldAPIKey) != "" {
+		key = os.Getenv(geocodio.EnvOldAPIKey)
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
+	os.Setenv(geocodio.EnvOldAPIKey, "")
+
+	_, err := geocodio.New()
+	if err == nil {
+		t.Error("Did not throw error with no API Key set")
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, key)
+}
+
+func TestGeocodioWithoutApiKeyEnvAndEmptyString(t *testing.T) {
+
+	key := os.Getenv(geocodio.EnvGeocodioAPIKey)
+	if key == "" && os.Getenv(geocodio.EnvOldAPIKey) != "" {
+		key = os.Getenv(geocodio.EnvOldAPIKey)
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
+	os.Setenv(geocodio.EnvOldAPIKey, "")
+
 	_, err := geocodio.New("")
 	if err == nil {
-		t.Error("Did not through error when omitting API KEY")
+		t.Error("Did not throw error with no API Key set")
 	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, key)
 }
 
 func TestGeocodioDeprecatedWithApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio(os.Getenv("API_KEY"))
+	_, err := geocodio.NewGeocodio(os.Getenv(geocodio.EnvGeocodioAPIKey))
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
+}
+
+func TestGeocodioDeprecatedWithoutApiKey(t *testing.T) {
+	_, err := geocodio.NewGeocodio("")
+	if err == nil {
+		t.Error("Expected error:", geocodio.ErrMissingAPIKey, " but did not see any error")
+	}
+}
+
+func TestGeocodioWithOldApiKey(t *testing.T) {
+	os.Setenv(geocodio.EnvOldAPIKey, os.Getenv(geocodio.EnvGeocodioAPIKey))
+	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
+
+	_, err := geocodio.New()
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, os.Getenv(geocodio.EnvOldAPIKey))
+	os.Setenv(geocodio.EnvOldAPIKey, "")
 }
