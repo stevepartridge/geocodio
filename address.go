@@ -1,6 +1,7 @@
 package geocodio
 
 type Address struct {
+	Query        string     `json:"query"`
 	Components   Components `json:"address_components"`
 	Formatted    string     `json:"formatted_address"`
 	Location     Location   `json:"location"`
