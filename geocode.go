@@ -7,8 +7,8 @@ import (
 
 // GeocodeResponse
 type GeocodeResult struct {
-	Input   Input     `json:"input,omitempty"`
-	Results []Address `json:"results"`
+	Input   Input    `json:"input,omitempty"`
+	Results []Result `json:"results"`
 	Debug   struct {
 		RawResponse  []byte `json:"-"`
 		RequestedURL string `json:"requested_url"`
@@ -17,6 +17,17 @@ type GeocodeResult struct {
 	} `json:"-"`
 }
 
+type ErrorResponse struct {
+	Message string    `json:"error"`
+	Results []Address `json:"results"`
+}
+
+type Result struct {
+	Address
+	Error *ErrorResponse `json:"response,omitempty"`
+}
+
+// ResponseAsString helper to return raw response
 func (self *GeocodeResult) ResponseAsString() string {
 	return string(self.Debug.RawResponse)
 }
@@ -28,27 +39,35 @@ func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 		return GeocodeResult{}, ErrAddressIsEmpty
 	}
 
-	results, err := g.get("/geocode", map[string]string{"q": address})
+	resp, err := g.get("/geocode", map[string]string{"q": address})
 	if err != nil {
 		return GeocodeResult{}, err
 	}
 
-	return results, nil
+	if len(resp.Results) == 0 {
+		return resp, ErrNoResultsFound
+	}
+
+	return resp, nil
 }
 
-// Geocode batch addresses
+// GeocodeBatch look up addresses
 func (g *Geocodio) GeocodeBatch(addresses ...string) (GeocodeResult, error) {
 	if len(addresses) == 0 {
 		return GeocodeResult{}, ErrBatchAddressesIsEmpty
 	}
 
 	// TODO: support limit
-	results, err := g.post("/geocode", addresses, nil)
+	resp, err := g.post("/geocode", addresses, nil)
 	if err != nil {
 		return GeocodeResult{}, err
 	}
 
-	return results, nil
+	if len(resp.Results) == 0 {
+		return resp, ErrNoResultsFound
+	}
+
+	return resp, nil
 }
 
 // GeocodeAndReturnTimezone will geocode and include Timezone in the fields response
@@ -86,7 +105,7 @@ func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (Geocod
 
 	fieldsCommaSeparated := strings.Join(fields, ",")
 
-	result, err := g.Call("/geocode",
+	resp, err := g.get("/geocode",
 		map[string]string{
 			"q":      address,
 			"fields": fieldsCommaSeparated,
@@ -95,5 +114,9 @@ func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (Geocod
 		return GeocodeResult{}, err
 	}
 
-	return result, nil
+	if len(resp.Results) == 0 {
+		return resp, ErrNoResultsFound
+	}
+
+	return resp, nil
 }
