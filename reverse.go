@@ -1,14 +1,15 @@
 package geocodio
 
 import (
+	"fmt"
 	"strconv"
 )
 
 /*
 	See: http://geocod.io/docs/#toc_16
 */
-// ReverseGeocode does a reverse geocode look up for a single coordinate
-func (g *Geocodio) ReverseGeocode(latitude, longitude float64) (GeocodeResult, error) {
+// Reverse does a reverse geocode look up for a single coordinate
+func (g *Geocodio) Reverse(latitude, longitude float64) (GeocodeResult, error) {
 	// if there is an address here, they should probably think about moving
 	// regardless, we'll consider it an error
 	if latitude == 0.0 && longitude == 0.0 {
@@ -18,12 +19,68 @@ func (g *Geocodio) ReverseGeocode(latitude, longitude float64) (GeocodeResult, e
 	latStr := strconv.FormatFloat(latitude, 'f', 9, 64)
 	lngStr := strconv.FormatFloat(longitude, 'f', 9, 64)
 
-	result, err := g.Call("/reverse", map[string]string{"q": latStr + "," + lngStr})
+	resp, err := g.get("/reverse", map[string]string{"q": latStr + "," + lngStr})
 	if err != nil {
 		return GeocodeResult{}, err
 	}
 
-	// fmt.Println(result.Debug.RequestedURL)
+	if len(resp.Results) == 0 {
+		return resp, ErrNoResultsFound
+	}
 
-	return result, nil
+	return resp, nil
+}
+
+// ReverseGeocode is deprecated and will be removed in 2+
+func (g *Geocodio) ReverseGeocode(latitude, longitude float64) (GeocodeResult, error) {
+	fmt.Printf(`
+  ReverseGeocode(%f, %f) is deprecated and will be removed in 2+
+  Use Reverse(%f, %f) 
+`,
+		latitude, longitude,
+		latitude, longitude,
+	)
+	return g.Reverse(latitude, longitude)
+}
+
+// ReverseBatch supports a batch lookup by lat/lng coordinate pairs
+func (g *Geocodio) ReverseBatch(latlngs ...float64) (GeocodeResult, error) {
+	if len(latlngs) == 0 {
+		return GeocodeResult{}, ErrReverseBatchMissingCoords
+	}
+
+	if len(latlngs)%2 == 1 {
+		return GeocodeResult{}, ErrReverseBatchInvalidCoordsPairs
+	}
+
+	var (
+		payload = []string{}
+		pair    string
+	)
+
+	for i := range latlngs {
+		coord := strconv.FormatFloat(latlngs[i], 'f', 9, 64)
+		if i == 0 {
+			pair = coord
+			continue
+		}
+		if i%2 == 0 {
+			pair = fmt.Sprintf("%s,%s", pair, coord)
+			payload = append(payload, pair)
+			continue
+		}
+		pair = coord
+	}
+
+	resp, err := g.post("/reverse", payload, nil)
+	if err != nil {
+		return GeocodeResult{}, err
+	}
+
+	if len(resp.Results) == 0 {
+		return resp, ErrNoResultsFound
+	}
+
+	return resp, nil
+
 }

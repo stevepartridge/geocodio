@@ -8,8 +8,6 @@ import (
 )
 
 const (
-	DefaultAPIKey = "YOUR_API_KEY"
-
 	// AddressTestOneFull       = "42370 Bob Hope Dr, Rancho Mirage, CA 92270"
 	// AddressTestOneWithoutZip = "42370 Bob Hope Dr, Rancho Mirage, CA"
 	// AddressTestOneNumber     = "42370"
@@ -36,27 +34,84 @@ const (
 	AddressTestTwoState      = "MA"
 	AddressTestTwoLatitude   = 42.36629
 	AddressTestTwoLongitude  = -71.0622
+
+	AddressTestThreeFull       = "19 Tony Gwynn Drive, San Diego, CA 02114"
+	AddressTestThreeWithoutZip = "19 Tony Gwynn Drive, San Diego, CA"
+	AddressTestThreeNumber     = "19"
+	AddressTestThreeStreet     = "Tony Gwynn Drive"
+	AddressTestThreeCity       = "San Diego"
+	AddressTestThreeState      = "CA"
+	AddressTestThreeLatitude   = 32.708343
+	AddressTestThreeLongitude  = -117.158124
 )
 
-func APIKey() string {
-	if DefaultAPIKey != "YOUR_API_KEY" {
-		return DefaultAPIKey
-	}
-	return os.Getenv("API_KEY")
-}
-
 func TestGeocodioWithApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio(APIKey())
+
+	_, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
 }
 
 func TestGeocodioWithoutApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio("")
+
+	key := os.Getenv(geocodio.EnvGeocodioAPIKey)
+	if key == "" && os.Getenv(geocodio.EnvOldAPIKey) != "" {
+		key = os.Getenv(geocodio.EnvOldAPIKey)
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
+	os.Setenv(geocodio.EnvOldAPIKey, "")
+
+	_, err := geocodio.New()
 	if err == nil {
-		t.Error("Did not through error when omitting API KEY")
+		t.Error("Did not throw error with no API Key set")
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, key)
+}
+
+func TestGeocodioWithoutApiKeyEnvAndEmptyString(t *testing.T) {
+
+	key := os.Getenv(geocodio.EnvGeocodioAPIKey)
+	if key == "" && os.Getenv(geocodio.EnvOldAPIKey) != "" {
+		key = os.Getenv(geocodio.EnvOldAPIKey)
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
+	os.Setenv(geocodio.EnvOldAPIKey, "")
+
+	_, err := geocodio.New("")
+	if err == nil {
+		t.Error("Did not throw error with no API Key set")
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, key)
+}
+
+func TestGeocodioDeprecatedWithApiKey(t *testing.T) {
+	_, err := geocodio.NewGeocodio(os.Getenv(geocodio.EnvGeocodioAPIKey))
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
 	}
 }
 
-// 1109+N+Highland+St%2c+Arlington+VA
+func TestGeocodioDeprecatedWithoutApiKey(t *testing.T) {
+	_, err := geocodio.NewGeocodio("")
+	if err == nil {
+		t.Error("Expected error:", geocodio.ErrMissingAPIKey, " but did not see any error")
+	}
+}
+
+func TestGeocodioWithOldApiKey(t *testing.T) {
+	os.Setenv(geocodio.EnvOldAPIKey, os.Getenv(geocodio.EnvGeocodioAPIKey))
+	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
+
+	_, err := geocodio.New()
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+
+	os.Setenv(geocodio.EnvGeocodioAPIKey, os.Getenv(geocodio.EnvOldAPIKey))
+	os.Setenv(geocodio.EnvOldAPIKey, "")
+}

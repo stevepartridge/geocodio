@@ -1,44 +1,45 @@
 package geocodio_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stevepartridge/geocodio"
 )
 
 func TestGeocodeWithEmptyAddress(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	_, err = Geocodio.Geocode("")
+	_, err = gio.Geocode("")
 	if err == nil {
 		t.Error("Error should not be nil.")
 	}
 }
 
 func TestGeocodeDebugResponseAsString(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.Geocode(AddressTestOneFull)
+	result, err := gio.Geocode(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
 
 	if result.ResponseAsString() == "" {
-		t.Error("Response should be a valid string.")
+		t.Error("Response should be a valid stringio.")
 	}
 
 }
 
 func TestGeocodeFullAddress(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.Geocode(AddressTestOneFull)
+	result, err := gio.Geocode(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -59,11 +60,11 @@ func TestGeocodeFullAddress(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gio, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.GeocodeAndReturnTimezone(AddressTestOneFull)
+	result, err := gio.GeocodeAndReturnTimezone(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -92,16 +93,16 @@ func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningZip4(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gc, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.GeocodeAndReturnZip4(AddressTestOneFull)
+	result, err := gc.GeocodeAndReturnZip4(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
 
-	// fmt.Println(result.Debug.RequestedURL)
+	// fmt.Println(result.Debugio.RequestedURL)
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -125,12 +126,12 @@ func TestGeocodeFullAddressReturningZip4(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gc, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 		t.Fail()
 	}
-	result, err := Geocodio.GeocodeAndReturnCongressionalDistrict(AddressTestOneFull)
+	result, err := gc.GeocodeAndReturnCongressionalDistrict(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -167,13 +168,13 @@ func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gc, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 		t.Fail()
 	}
 
-	result, err := Geocodio.GeocodeAndReturnStateLegislativeDistricts(AddressTestOneFull)
+	result, err := gc.GeocodeAndReturnStateLegislativeDistricts(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -207,16 +208,16 @@ func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
-	Geocodio, err := geocodio.NewGeocodio(APIKey())
+	gc, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := Geocodio.GeocodeReturnFields(AddressTestOneFull, "timezone", "cd")
+	result, err := gc.GeocodeReturnFields(AddressTestOneFull, "timezone", "cd")
 	if err != nil {
 		t.Error(err)
 	}
 
-	// fmt.Println(result.Debug.RequestedURL)
+	// fmt.Println(result.Debugio.RequestedURL)
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -253,6 +254,68 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 
 	if congressionalDistrict.DistrictNumber != 8 {
 		t.Error("Congressional District field does not match", result.Results[0].Fields.CongressionalDistrict)
+	}
+
+}
+
+func TestGeocodeBatchGeocode(t *testing.T) {
+	gc, err := geocodio.New()
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+	resp, err := gc.GeocodeBatch(
+		AddressTestOneFull,
+		AddressTestTwoFull,
+		AddressTestThreeFull,
+	)
+
+	if err != nil {
+		t.Error(err.Error())
+	}
+
+	if len(resp.Results) == 0 {
+		t.Error("Results length is 0")
+	}
+
+	if len(resp.Results) < 3 {
+		t.Error("Expected 3 or more results but saw", len(resp.Results))
+	}
+}
+
+func TestGeocodeBatchEmptyListGeocode(t *testing.T) {
+	gc, err := geocodio.New()
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+
+	_, err = gc.GeocodeBatch()
+	if err == nil {
+		t.Error("Expected to see an error")
+	}
+
+}
+
+func TestGeocodeInvalidNoResults(t *testing.T) {
+	gc, err := geocodio.New()
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
+	}
+
+	resp, err := gc.Geocode("123 Nonsense Ln, Nowhere, XX")
+	if err == nil {
+		t.Error("Expected to see an error")
+		fmt.Println(resp.ResponseAsString())
+		return
+	}
+	if err != geocodio.ErrNoResultsFound {
+		t.Error("Expected error", geocodio.ErrNoResultsFound.Error(), "but saw", err.Error())
+	}
+
+	resp, err = gc.GeocodeBatch("123 Nonsense Ln, Nowhere, XX")
+	if err == nil {
+		t.Error("Expected to see an error")
+		fmt.Println(resp.ResponseAsString())
+		return
 	}
 
 }
