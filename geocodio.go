@@ -21,7 +21,7 @@ type Input struct {
 	FormattedAddress  string     `json:"formatted_address"`
 }
 
-// New creates a new Geocodio instance based on an API key in either the environment
+// New creates a Geocodio instance based on an API key in either the environment
 // or passed in as the first string value
 func New(apiKey ...string) (*Geocodio, error) {
 
@@ -29,8 +29,9 @@ func New(apiKey ...string) (*Geocodio, error) {
 	if strings.TrimSpace(key) == "" {
 		key = os.Getenv(EnvOldAPIKey)
 	}
+
 	if len(apiKey) == 0 && strings.TrimSpace(key) == "" {
-		return nil, ErrMissingApiKey
+		return nil, ErrMissingAPIKey
 	}
 
 	if len(apiKey) == 1 {
@@ -38,7 +39,7 @@ func New(apiKey ...string) (*Geocodio, error) {
 	}
 
 	if strings.TrimSpace(key) == "" {
-		return nil, ErrMissingApiKey
+		return nil, ErrMissingAPIKey
 	}
 
 	g := Geocodio{
@@ -54,13 +55,13 @@ func New(apiKey ...string) (*Geocodio, error) {
 func NewGeocodio(apiKey string) (*Geocodio, error) {
 
 	fmt.Println(`
-NewGeocodio() is deprecated and will be removed in 2+
-Use geocodio.New("YOUR_API_KEY") 
-or with the environment variable GEOCODIO_API_KEY
-Use geocodio.New()`)
+  NewGeocodio() is deprecated and will be removed in 2+
+  Use geocodio.New("YOUR_API_KEY") 
+  or with the environment variable ` + EnvGeocodioAPIKey + `
+  Use geocodio.New()`)
 
 	if apiKey == "" {
-		return nil, ErrMissingApiKey
+		return nil, ErrMissingAPIKey
 	}
 
 	g := Geocodio{
