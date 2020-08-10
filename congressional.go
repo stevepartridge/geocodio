@@ -30,12 +30,12 @@ type CongressionalDistrict struct {
 }
 */
 type Legislator struct {
-	Type       string     `json:"type"`
-	Bio        Bio        `json:"bio"`
-	Contact    Contact    `json:"contact"`
-	Social     Social     `json:"social"`
-	References References `json:"references"`
-	Source     string     `json:"source"`
+	Type       string              `json:"type"`
+	Bio        Bio                 `json:"bio"`
+	Contact    Contact             `json:"contact"`
+	Social     CongressionalSocial `json:"social"`
+	References References          `json:"references"`
+	Source     string              `json:"source"`
 }
 
 // Bio field
@@ -82,7 +82,7 @@ type Contact struct {
 	"youtube_id": "UCPJGVbOVcAVGiBwq8qr_T9w"
 }
 */
-type Social struct {
+type CongressionalSocial struct {
 	RSSURL    string `json:"rss_url"`
 	Twitter   string `json:"twitter"`
 	Facebook  string `json:"facebook"`
