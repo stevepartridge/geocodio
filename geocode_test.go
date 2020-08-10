@@ -8,38 +8,38 @@ import (
 )
 
 func TestGeocodeWithEmptyAddress(t *testing.T) {
-	gio, err := geocodio.New()
+	gc, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	_, err = gio.Geocode("")
+	_, err = gc.Geocode("")
 	if err == nil {
 		t.Error("Error should not be nil.")
 	}
 }
 
 func TestGeocodeDebugResponseAsString(t *testing.T) {
-	gio, err := geocodio.New()
+	gc, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := gio.Geocode(AddressTestOneFull)
+	result, err := gc.Geocode(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
 
 	if result.ResponseAsString() == "" {
-		t.Error("Response should be a valid stringio.")
+		t.Error("Response should be a valid string.")
 	}
 
 }
 
 func TestGeocodeFullAddress(t *testing.T) {
-	gio, err := geocodio.New()
+	gc, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := gio.Geocode(AddressTestOneFull)
+	result, err := gc.Geocode(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
@@ -60,16 +60,14 @@ func TestGeocodeFullAddress(t *testing.T) {
 }
 
 func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
-	gio, err := geocodio.New()
+	gc, err := geocodio.New()
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
-	result, err := gio.GeocodeAndReturnTimezone(AddressTestOneFull)
+	result, err := gc.GeocodeAndReturnTimezone(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
-
-	// t.Log(result.ResponseAsString())
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -97,12 +95,11 @@ func TestGeocodeFullAddressReturningZip4(t *testing.T) {
 	if err != nil {
 		t.Error("Failed with API KEY set.", err)
 	}
+
 	result, err := gc.GeocodeAndReturnZip4(AddressTestOneFull)
 	if err != nil {
 		t.Error(err)
 	}
-
-	// fmt.Println(result.Debugio.RequestedURL)
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
@@ -217,7 +214,7 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 		t.Error(err)
 	}
 
-	// fmt.Println(result.Debugio.RequestedURL)
+	// fmt.Println(result.Debugc.RequestedURL)
 
 	if len(result.Results) == 0 {
 		t.Error("Results length is 0")
