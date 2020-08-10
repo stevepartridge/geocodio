@@ -1,6 +1,8 @@
 # geocodio
 
-[![GoDoc](https://godoc.org/github.com/stevepartridge/geocodio?status.svg)](https://godoc.org/github.com/stevepartridge/geocodio) [![Go Report Card](https://goreportcard.com/badge/github.com/stevepartridge/geocodio)](https://goreportcard.com/report/github.com/stevepartridge/geocodio)
+[![GoDoc](https://godoc.org/github.com/stevepartridge/geocodio?status.svg)](https://godoc.org/github.com/stevepartridge/geocodio)
+[![Go Report Card](https://goreportcard.com/badge/github.com/stevepartridge/geocodio)](https://goreportcard.com/report/github.com/stevepartridge/geocodio)
+[![Coverage](http://gocover.io/_badge/github.com/stevepartridge/service)](http://gocover.io/github.com/stevepartridge/geocodio)
 
 Go client for [Geocodio](http://geocod.io) API v1
 
@@ -15,7 +17,9 @@ import(
 )
 
 func main() {
-  gc, err := geocodio.NewGeocodio("YOUR_API_KEY")
+	gc, err := geocodio.New("YOUR_API_KEY")
+	// or if env var GEOCODIO_API_KEY is set
+	// gc, err := geocodio.New()
 	if err != nil {
 		panic(err)
 	}
@@ -36,7 +40,9 @@ import(
 )
 
 func main() {
-  gc, err := geocodio.NewGeocodio("YOUR_API_KEY")
+	gc, err := geocodio.NewGeocodio("YOUR_API_KEY")
+	// or if env var GEOCODIO_API_KEY is set
+	// gc, err := geocodio.New()
 	if err != nil {
 		panic(err)
 	}
