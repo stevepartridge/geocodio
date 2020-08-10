@@ -71,13 +71,16 @@ type StatisticalArea struct {
 }
 
 type CensusACS struct {
-	Meta         CensusMeta  `json:"meta"`
-	Demographics Demographic `json:"demographics"`
-	Economics    Economics   `json:"economics`
+	Meta         CensusMeta   `json:"meta"`
+	Demographics *Demographic `json:"demographics,omitempty"`
+	Economics    *Economics   `json:"economics,omitempty"`
+	Families     *Families    `json:"families,omitempty"`
+	Housing      *Housing     `json:"housing,omitempty"`
+	Social       *Social      `json:"social,omitempty"`
 }
 
 type Economics struct {
-	NumberOfHouseholds    struct{}              `json:"Number of households"`
+	NumberOfHouseholds    NumberOfHouseholds    `json:"Number of households"`
 	MedianHouseholdIncome MedianHouseholdIncome `json:"Median household income"`
 	HouseholdIncome       HouseholdIncome       `json:"Household income"`
 }
@@ -120,17 +123,39 @@ type Demographic struct {
 }
 
 type CensusMeta struct {
-	Source              string `json:"source"`
-	SurveyYears         string `json:"survey_years"`
-	SurveyDurationYears string `json:"survey_duration_years"`
-	TableID             string `json:"table_id"`
-	Universe            string `json:"universe"`
+	Source              string `json:"source,omitempty"`
+	SurveyYears         string `json:"survey_years,omitempty"`
+	SurveyDurationYears string `json:"survey_duration_years,omitempty"`
+	TableID             string `json:"table_id,omitempty"`
+	Universe            string `json:"universe,omitempty"`
 }
 
 type CensusDataPoint struct {
-	Value         float64 `json:"value"`
-	MarginOfError float64 `json:"margin_of_error"`
-	Percentage    float64 `json:"percentage"`
-	TableID       string  `json:"table_id"`
-	Universe      string  `json:"universe"`
+	Value         float64          `json:"value,omitempty"`
+	MarginOfError float64          `json:"margin_of_error,omitempty"`
+	Percentage    float64          `json:"percentage,omitempty"`
+	TableID       string           `json:"table_id,omitempty"`
+	Universe      string           `json:"universe,omitempty"`
+	Total         *CensusDataPoint `json:"Total,omitempty"`
+}
+
+type Families struct {
+	HouseholdTypeByHousehold  map[string]CensusDataPoint `json:"Household type by household"`
+	HouseholdTypeByPopulation map[string]CensusDataPoint `json:"Household type by population"`
+	MaritalStatus             map[string]CensusDataPoint `json:"Marital status"`
+}
+
+type Housing struct {
+	NumberOfHousingUnits            map[string]CensusDataPoint `json:"Number of housing units"`
+	OccupancyStatus                 map[string]CensusDataPoint `json:"Occupancy status"`
+	OwnershipOfOccupiedUnits        map[string]CensusDataPoint `json:"Ownership of occupied units"`
+	UnitsInStructure                map[string]CensusDataPoint `json:"Units in structure"`
+	MedianValueOfOwnerOccupiedUnits map[string]CensusDataPoint `json:"Median value of owner-occupied housing units"`
+	ValueOfOwnerOccupiedUnits       map[string]CensusDataPoint `json:"Value of owner-occupied housing units"`
+}
+
+type Social struct {
+	PopulationByMinimumLevelOfEducation map[string]CensusDataPoint `json:"Population by minimum level of education"`
+	PopulationWithVeteran               map[string]CensusDataPoint `json:"Population with veteran status"`
+	PeriodOfMilitaryServiceForVeterans  map[string]CensusDataPoint `json:"Period of military service for veterans"`
 }
