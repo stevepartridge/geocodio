@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/dghubble/sling"
 )
 
 const (
@@ -25,6 +27,7 @@ type Input struct {
 // or passed in as the first string value
 func New(apiKey ...string) (*Geocodio, error) {
 
+	client := sling.New().Base(GeocodioAPIBaseURLv1)
 	key := os.Getenv(EnvGeocodioAPIKey)
 	if strings.TrimSpace(key) == "" {
 		key = os.Getenv(EnvOldAPIKey)
