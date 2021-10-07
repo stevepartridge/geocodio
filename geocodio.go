@@ -1,9 +1,10 @@
 package geocodio
 
 import (
-	"fmt"
+	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/dghubble/sling"
 )
@@ -15,7 +16,8 @@ const (
 
 // Geocodio is the base struct
 type Geocodio struct {
-	APIKey string
+	APIKey string `url:"api_key"`
+	client sling.Doer
 }
 
 type Input struct {
@@ -26,13 +28,7 @@ type Input struct {
 // New creates a Geocodio instance based on an API key in either the environment
 // or passed in as the first string value
 func New(apiKey ...string) (*Geocodio, error) {
-
-	client := sling.New().Base(GeocodioAPIBaseURLv1)
 	key := os.Getenv(EnvGeocodioAPIKey)
-	if strings.TrimSpace(key) == "" {
-		key = os.Getenv(EnvOldAPIKey)
-	}
-
 	if len(apiKey) == 0 && strings.TrimSpace(key) == "" {
 		return nil, ErrMissingAPIKey
 	}
@@ -45,31 +41,43 @@ func New(apiKey ...string) (*Geocodio, error) {
 		return nil, ErrMissingAPIKey
 	}
 
+	timeout := time.Duration(10 * time.Second)
+	client := &http.Client{
+		Timeout: timeout,
+	}
+
 	g := Geocodio{
 		APIKey: key,
+		client: client,
 	}
 
 	return &g, nil
 }
 
-// NewGeocodio is a helper to create new Geocodio reference
-// since 1.6+ this is kept for backwards compatiblity
-// this is deprecatd and will be removed in 2+
-func NewGeocodio(apiKey string) (*Geocodio, error) {
+func (g *Geocodio) do(method, path string, params map[string]string, bodyJSON, result interface{}) error {
+	s := sling.New().
+		Doer(g.client).
+		Base(GeocodioAPIBaseURLv1).
+		QueryStruct(g).
+		Set("Content-Type", "application/json").
+		Path(path).
+		BodyJSON(bodyJSON)
 
-	fmt.Println(`
-  NewGeocodio() is deprecated and will be removed in 2+
-  Use geocodio.New("YOUR_API_KEY") 
-  or with the environment variable ` + EnvGeocodioAPIKey + `
-  Use geocodio.New()`)
-
-	if apiKey == "" {
-		return nil, ErrMissingAPIKey
+	req, err := s.Request()
+	if err != nil {
+		return err
 	}
+	req.Method = method
+	req.URL.RawQuery = getQueryString(req, params)
 
-	g := Geocodio{
-		APIKey: apiKey,
+	_, err = s.Do(req, result, nil)
+	return err
+}
+
+func getQueryString(req *http.Request, params map[string]string) string {
+	query := req.URL.Query()
+	for key, value := range params {
+		query.Add(key, value)
 	}
-
-	return &g, nil
+	return query.Encode()
 }

@@ -1,14 +1,6 @@
 package geocodio
 
 // Congressional District field
-/*
-"name": "Congressional District 8",
-"district_number": 8,
-"congress_number": "116th",
-"congress_years": "2019-2021",
-"proportion": 1,
-"current_legislators": [...]
-*/
 type CongressionalDistrict struct {
 	Name               string       `json:"name"`
 	DistrictNumber     int          `json:"district_number"`
@@ -19,16 +11,6 @@ type CongressionalDistrict struct {
 }
 
 // Legislator field
-/*
-{
-	"type": "representative",
-	"bio": {...},
-	"contact": {...},
-	"social": {...},
-	"references": {...},
-	"source": "Legislator data is originally collected and aggregated by https://github.com/unitedstates/"
-}
-*/
 type Legislator struct {
 	Type       string              `json:"type"`
 	Bio        Bio                 `json:"bio"`
@@ -39,15 +21,6 @@ type Legislator struct {
 }
 
 // Bio field
-/*
-	"bio": {
-		"last_name": "Beyer",
-		"first_name": "Donald",
-		"birthday": "1950-06-20",
-		"gender": "M",
-		"party": "Democrat"
-	}
-*/
 type Bio struct {
 	LastName  string `json:"last_name"`
 	FirstName string `json:"first_name"`
@@ -57,14 +30,6 @@ type Bio struct {
 }
 
 // Contact field
-/*
-"contact": {
-	"url": "https://beyer.house.gov",
-	"address": "1119 Longworth House Office Building Washington DC 20515-4608",
-	"phone": "(202) 225-4376",
-	"contact_form": null
-}
-*/
 type Contact struct {
 	URL         string `json:"url"`
 	Address     string `json:"address"`
@@ -73,15 +38,6 @@ type Contact struct {
 }
 
 // Social field
-/*
-"social": {
-	"rss_url": null,
-	"twitter": "RepDonBeyer",
-	"facebook": "RepDonBeyer",
-	"youtube": null,
-	"youtube_id": "UCPJGVbOVcAVGiBwq8qr_T9w"
-}
-*/
 type CongressionalSocial struct {
 	RSSURL    string `json:"rss_url"`
 	Twitter   string `json:"twitter"`
@@ -91,21 +47,6 @@ type CongressionalSocial struct {
 }
 
 // References field
-/*
-"references": {
-	"bioguide_id": "B001292",
-	"thomas_id": "02272",
-	"opensecrets_id": "N00036018",
-	"lis_id": null,
-	"cspan_id": "21141",
-	"govtrack_id": "412657",
-	"votesmart_id": "1707",
-	"ballotpedia_id": null,
-	"washington_post_id": null,
-	"icpsr_id": "21554",
-	"wikipedia_id": "Don Beyer"
-}
-*/
 type References struct {
 	BioguideID       string `json:"bioguide_id"`
 	ThomasID         string `json:"thomas_id"`

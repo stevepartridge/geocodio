@@ -8,12 +8,6 @@ import (
 // BatchResponse
 type BatchResponse struct {
 	Results []BatchResult `json:"results"`
-	Debug   struct {
-		RawResponse  []byte `json:"-"`
-		RequestedURL string `json:"requested_url"`
-		Status       string `json:"status"`
-		StatusCode   int    `json:"status_code"`
-	} `json:"-"`
 }
 
 // BatchResult
@@ -32,12 +26,6 @@ type BatchResultItem struct {
 type GeocodeResult struct {
 	Input   Input    `json:"input,omitempty"`
 	Results []Result `json:"results"`
-	Debug   struct {
-		RawResponse  []byte `json:"-"`
-		RequestedURL string `json:"requested_url"`
-		Status       string `json:"status"`
-		StatusCode   int    `json:"status_code"`
-	} `json:"-"`
 }
 
 type ErrorResponse struct {
@@ -50,77 +38,44 @@ type Result struct {
 	Error *ErrorResponse `json:"response,omitempty"`
 }
 
-func (self *GeocodeResult) SaveDebug(requestedURL, status string, statusCode int, body []byte) {
-	self.Debug.RequestedURL = requestedURL
-	self.Debug.Status = status
-	self.Debug.StatusCode = statusCode
-	self.Debug.RawResponse = body
-}
-
-func (self *GeocodeResult) Error() string {
-	if len(self.Results) > 0 {
-		if self.Results[0].Error != nil {
-			return self.Results[0].Error.Message
-		}
-	}
-	return ""
-}
-
-// ResponseAsString helper to return raw response
-func (self *GeocodeResult) ResponseAsString() string {
-	return string(self.Debug.RawResponse)
-}
-
-func (self *BatchResponse) SaveDebug(requestedURL, status string, statusCode int, body []byte) {
-	self.Debug.RequestedURL = requestedURL
-	self.Debug.Status = status
-	self.Debug.StatusCode = statusCode
-	self.Debug.RawResponse = body
-}
-
-// ResponseAsString helper to return raw response
-func (self *BatchResponse) ResponseAsString() string {
-	return string(self.Debug.RawResponse)
-}
-
 // Geocode single address
 // See: http://geocod.io/docs/#toc_4
 func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
-	resp := GeocodeResult{}
+	res := GeocodeResult{}
 	if address == "" {
-		return resp, ErrAddressIsEmpty
+		return res, ErrAddressIsEmpty
 	}
 
-	err := g.get("/geocode", map[string]string{"q": address}, &resp)
+	err := g.do("GET", "/geocode", map[string]string{"q": address}, nil, &res)
 	if err != nil {
-		return GeocodeResult{}, err
+		return res, err
 	}
 
-	if len(resp.Results) == 0 {
-		return resp, ErrNoResultsFound
+	if len(res.Results) == 0 {
+		return res, ErrNoResultsFound
 	}
 
-	return resp, nil
+	return res, nil
 }
 
 // GeocodeBatch look up addresses
 func (g *Geocodio) GeocodeBatch(addresses ...string) (BatchResponse, error) {
-	resp := BatchResponse{}
+	res := BatchResponse{}
 	if len(addresses) == 0 {
-		return resp, ErrBatchAddressesIsEmpty
+		return res, ErrBatchAddressesIsEmpty
 	}
 
 	// TODO: support limit
-	err := g.post("/geocode", addresses, nil, &resp)
+	err := g.do("POST", "/geocode", nil, addresses, &res)
 	if err != nil {
-		return BatchResponse{}, err
+		return res, err
 	}
 
-	if len(resp.Results) == 0 {
-		return resp, ErrNoResultsFound
+	if len(res.Results) == 0 {
+		return res, ErrNoResultsFound
 	}
 
-	return resp, nil
+	return res, nil
 }
 
 // GeocodeAndReturnTimezone will geocode and include Timezone in the fields response
@@ -152,25 +107,24 @@ func (g *Geocodio) GeocodeAndReturnStateLegislativeDistricts(address string) (Ge
 		Each field counts as an additional lookup each
 */
 func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (GeocodeResult, error) {
-	resp := GeocodeResult{}
+	res := GeocodeResult{}
 	if address == "" {
-		return resp, errors.New("address can not be empty")
+		return res, errors.New("address can not be empty")
 	}
 
 	fieldsCommaSeparated := strings.Join(fields, ",")
 
-	err := g.get("/geocode",
-		map[string]string{
-			"q":      address,
-			"fields": fieldsCommaSeparated,
-		}, &resp)
+	err := g.do("GET", "/geocode", map[string]string{
+		"q":      address,
+		"fields": fieldsCommaSeparated,
+	}, nil, &res)
 	if err != nil {
-		return resp, err
+		return res, err
 	}
 
-	if len(resp.Results) == 0 {
-		return resp, ErrNoResultsFound
+	if len(res.Results) == 0 {
+		return res, ErrNoResultsFound
 	}
 
-	return resp, nil
+	return res, nil
 }

@@ -19,17 +19,17 @@ func (g *Geocodio) Reverse(latitude, longitude float64) (GeocodeResult, error) {
 	latStr := strconv.FormatFloat(latitude, 'f', 9, 64)
 	lngStr := strconv.FormatFloat(longitude, 'f', 9, 64)
 
-	resp := GeocodeResult{}
-	err := g.get("/reverse", map[string]string{"q": latStr + "," + lngStr}, &resp)
+	res := GeocodeResult{}
+	err := g.do("GET", "/reverse", map[string]string{"q": latStr + "," + lngStr}, nil, &res)
 	if err != nil {
-		return resp, err
+		return res, err
 	}
 
-	if len(resp.Results) == 0 {
-		return resp, ErrNoResultsFound
+	if len(res.Results) == 0 {
+		return res, ErrNoResultsFound
 	}
 
-	return resp, nil
+	return res, nil
 }
 
 // ReverseGeocode is deprecated and will be removed in 2+
@@ -46,13 +46,13 @@ func (g *Geocodio) ReverseGeocode(latitude, longitude float64) (GeocodeResult, e
 
 // ReverseBatch supports a batch lookup by lat/lng coordinate pairs
 func (g *Geocodio) ReverseBatch(latlngs ...float64) (BatchResponse, error) {
-	resp := BatchResponse{}
+	res := BatchResponse{}
 	if len(latlngs) == 0 {
-		return resp, ErrReverseBatchMissingCoords
+		return res, ErrReverseBatchMissingCoords
 	}
 
 	if len(latlngs)%2 == 1 {
-		return resp, ErrReverseBatchInvalidCoordsPairs
+		return res, ErrReverseBatchInvalidCoordsPairs
 	}
 
 	var (
@@ -74,15 +74,15 @@ func (g *Geocodio) ReverseBatch(latlngs ...float64) (BatchResponse, error) {
 		pair = coord
 	}
 
-	err := g.post("/reverse", payload, nil, &resp)
+	err := g.do("POST", "/reverse", nil, payload, &res)
 	if err != nil {
-		return resp, err
+		return res, err
 	}
 
-	if len(resp.Results) == 0 {
-		return resp, ErrNoResultsFound
+	if len(res.Results) == 0 {
+		return res, ErrNoResultsFound
 	}
 
-	return resp, nil
+	return res, nil
 
 }

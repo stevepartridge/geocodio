@@ -15,35 +15,6 @@ type CensusResults struct {
 }
 
 // Census field
-/*
-{
-	"census_year": 2010,
-	"state_fips": "51",
-	"county_fips": "51013",
-	"tract_code": "101801",
-	"block_code": "1004",
-	"block_group": "1",
-	"full_fips": "510131018011004",
-	"place": {
-		"name": "Arlington",
-		"fips": "5103000"
-	},
-	"metro_micro_statistical_area": {
-		"name": "Washington-Arlington-Alexandria, DC-VA-MD-WV",
-		"area_code": "47900",
-		"type": "metropolitan"
-	},
-	"combined_statistical_area": {
-		"name": "Washington-Baltimore-Northern Virginia, DC-MD-VA-WV",
-		"area_code": "51548"
-	},
-	"metropolitan_division": {
-		"name": "Washington-Arlington-Alexandria, DC-VA-MD-WV",
-		"area_code": "47894"
-	},
-	"source": "US Census Bureau"
-}
-*/
 type Census struct {
 	Year                      int             `json:"census_year"`
 	StateFIPS                 string          `json:"state_fips"`

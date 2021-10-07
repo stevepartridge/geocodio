@@ -12,20 +12,6 @@ type Address struct {
 }
 
 // Components
-/*
-	"address_components": {
-		"number": "1109",
-		"predirectional": "N",
-		"street": "Highland",
-		"suffix": "St",
-		"formatted_street": "N Highland St",
-		"city": "Arlington",
-		"county": "Arlington County",
-		"state": "VA",
-		"zip": "22201",
-		"country": "US"
-	},
-*/
 type Components struct {
 	Number          string `json:"number"`
 	Street          string `json:"street"`

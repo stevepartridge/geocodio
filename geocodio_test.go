@@ -56,12 +56,7 @@ func TestGeocodioWithApiKey(t *testing.T) {
 func TestGeocodioWithoutApiKey(t *testing.T) {
 
 	key := os.Getenv(geocodio.EnvGeocodioAPIKey)
-	if key == "" && os.Getenv(geocodio.EnvOldAPIKey) != "" {
-		key = os.Getenv(geocodio.EnvOldAPIKey)
-	}
-
 	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
-	os.Setenv(geocodio.EnvOldAPIKey, "")
 
 	_, err := geocodio.New()
 	if err == nil {
@@ -72,14 +67,8 @@ func TestGeocodioWithoutApiKey(t *testing.T) {
 }
 
 func TestGeocodioWithoutApiKeyEnvAndEmptyString(t *testing.T) {
-
 	key := os.Getenv(geocodio.EnvGeocodioAPIKey)
-	if key == "" && os.Getenv(geocodio.EnvOldAPIKey) != "" {
-		key = os.Getenv(geocodio.EnvOldAPIKey)
-	}
-
 	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
-	os.Setenv(geocodio.EnvOldAPIKey, "")
 
 	_, err := geocodio.New("")
 	if err == nil {
@@ -87,31 +76,4 @@ func TestGeocodioWithoutApiKeyEnvAndEmptyString(t *testing.T) {
 	}
 
 	os.Setenv(geocodio.EnvGeocodioAPIKey, key)
-}
-
-func TestGeocodioDeprecatedWithApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio(os.Getenv(geocodio.EnvGeocodioAPIKey))
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
-}
-
-func TestGeocodioDeprecatedWithoutApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio("")
-	if err == nil {
-		t.Error("Expected error:", geocodio.ErrMissingAPIKey, " but did not see any error")
-	}
-}
-
-func TestGeocodioWithOldApiKey(t *testing.T) {
-	os.Setenv(geocodio.EnvOldAPIKey, os.Getenv(geocodio.EnvGeocodioAPIKey))
-	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
-
-	_, err := geocodio.New()
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
-
-	os.Setenv(geocodio.EnvGeocodioAPIKey, os.Getenv(geocodio.EnvOldAPIKey))
-	os.Setenv(geocodio.EnvOldAPIKey, "")
 }

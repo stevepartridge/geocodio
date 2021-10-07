@@ -1,125 +1,57 @@
 package geocodio_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stevepartridge/geocodio"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestGeocodeWithEmptyAddress(t *testing.T) {
 	gc, err := geocodio.New()
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
+	require.NoError(t, err)
+
 	_, err = gc.Geocode("")
-	if err == nil {
-		t.Error("Error should not be nil.")
-	}
-}
-
-func TestGeocodeDebugResponseAsString(t *testing.T) {
-	gc, err := geocodio.New()
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
-	result, err := gc.Geocode(AddressTestOneFull)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if result.ResponseAsString() == "" {
-		t.Error("Response should be a valid string.")
-	}
-
+	assert.Error(t, err)
 }
 
 func TestGeocodeFullAddress(t *testing.T) {
 	gc, err := geocodio.New()
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
+	require.NoError(t, err)
+
 	result, err := gc.Geocode(AddressTestOneFull)
-	if err != nil {
-		t.Error(err)
-	}
-
-	// t.Log(result.ResponseAsString())
-
-	if len(result.Results) == 0 {
-		t.Error("Results length is 0")
-	}
-
-	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
-		t.Errorf("Location latitude %f does not match %f", result.Results[0].Location.Latitude, AddressTestOneLatitude)
-	}
-
-	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
-		t.Errorf("Location longitude %f does not match %f", result.Results[0].Location.Longitude, AddressTestOneLongitude)
-	}
+	require.NoError(t, err)
+	require.True(t, len(result.Results) > 0)
+	assert.Equal(t, AddressTestOneLatitude, result.Results[0].Location.Latitude)
+	assert.Equal(t, AddressTestOneLongitude, result.Results[0].Location.Longitude)
 }
 
 func TestGeocodeFullAddressReturningTimezone(t *testing.T) {
 	gc, err := geocodio.New()
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
+	require.NoError(t, err)
+
 	result, err := gc.GeocodeAndReturnTimezone(AddressTestOneFull)
-	if err != nil {
-		t.Error(err)
-	}
+	assert.NoError(t, err)
+	require.True(t, len(result.Results) > 0)
 
-	if len(result.Results) == 0 {
-		t.Error("Results length is 0")
-	}
-
-	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
-		t.Errorf("Location latitude %f does not match %f", result.Results[0].Location.Latitude, AddressTestOneLatitude)
-	}
-
-	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
-		t.Errorf("Location longitude %f does not match %f", result.Results[0].Location.Longitude, AddressTestOneLongitude)
-	}
-
-	if result.Results[0].Fields.Timezone.Name == "" {
-		t.Error("Timezone field not found")
-	}
-
-	if !result.Results[0].Fields.Timezone.ObservesDST {
-		t.Error("Timezone field does not match", result.Results[0].Fields.Timezone)
-	}
+	assert.Equal(t, AddressTestOneLatitude, result.Results[0].Location.Latitude)
+	assert.Equal(t, AddressTestOneLongitude, result.Results[0].Location.Longitude)
+	assert.NotEmpty(t, result.Results[0].Fields.Timezone.Name)
+	assert.True(t, result.Results[0].Fields.Timezone.ObservesDST)
 }
 
 func TestGeocodeFullAddressReturningZip4(t *testing.T) {
 	gc, err := geocodio.New()
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
+	require.NoError(t, err)
 
 	result, err := gc.GeocodeAndReturnZip4(AddressTestOneFull)
-	if err != nil {
-		t.Error(err)
-	}
+	require.NoError(t, err)
+	require.True(t, len(result.Results) > 0)
 
-	if len(result.Results) == 0 {
-		t.Error("Results length is 0")
-	}
-
-	if result.Results[0].Location.Latitude != AddressTestOneLatitude {
-		t.Errorf("Location latitude %f does not match %f", result.Results[0].Location.Latitude, AddressTestOneLatitude)
-	}
-
-	if result.Results[0].Location.Longitude != AddressTestOneLongitude {
-		t.Errorf("Location longitude %f does not match %f", result.Results[0].Location.Longitude, AddressTestOneLongitude)
-	}
-
-	if len(result.Results[0].Fields.Zip4.Plus4) == 0 {
-		t.Error("Zip4 field not found")
-	}
-
-	// if !result.Results[0].Fields.Timezone.ObservesDST {
-	// 	t.Error("Zip4 field does not match", result.Results[0].Fields.Timezone)
-	// }
+	assert.Equal(t, AddressTestOneLatitude, result.Results[0].Location.Latitude)
+	assert.Equal(t, AddressTestOneLongitude, result.Results[0].Location.Longitude)
+	assert.True(t, len(result.Results[0].Fields.Zip4.Plus4) > 0)
 }
 
 func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
@@ -298,10 +230,9 @@ func TestGeocodeInvalidNoResults(t *testing.T) {
 		t.Error("Failed with API KEY set.", err)
 	}
 
-	resp, err := gc.Geocode("123 Nonsense Ln, Nowhere, XX")
+	_, err = gc.Geocode("123 Nonsense Ln, Nowhere, XX")
 	if err == nil {
 		t.Error("Expected to see an error")
-		fmt.Println(resp.ResponseAsString())
 		return
 	}
 	if err != geocodio.ErrNoResultsFound {
@@ -321,7 +252,6 @@ func TestGeocodeBatchInvalidNoResults(t *testing.T) {
 	}
 	if resp.Results[0].Response.Error == "" {
 		t.Error("Expected to see an error")
-		fmt.Println(resp.ResponseAsString())
 	}
 }
 
