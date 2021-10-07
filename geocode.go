@@ -5,6 +5,29 @@ import (
 	"strings"
 )
 
+// BatchResponse
+type BatchResponse struct {
+	Results []BatchResult `json:"results"`
+	Debug   struct {
+		RawResponse  []byte `json:"-"`
+		RequestedURL string `json:"requested_url"`
+		Status       string `json:"status"`
+		StatusCode   int    `json:"status_code"`
+	} `json:"-"`
+}
+
+// BatchResult
+type BatchResult struct {
+	Query    string          `json:"query"`
+	Response BatchResultItem `json:"response"`
+}
+
+type BatchResultItem struct {
+	Input   Input     `json:"input,omitempty"`
+	Results []Address `json:"results"`
+	Error   string    `json:"error,omitempty"`
+}
+
 // GeocodeResponse
 type GeocodeResult struct {
 	Input   Input    `json:"input,omitempty"`
@@ -27,19 +50,48 @@ type Result struct {
 	Error *ErrorResponse `json:"response,omitempty"`
 }
 
+func (self *GeocodeResult) SaveDebug(requestedURL, status string, statusCode int, body []byte) {
+	self.Debug.RequestedURL = requestedURL
+	self.Debug.Status = status
+	self.Debug.StatusCode = statusCode
+	self.Debug.RawResponse = body
+}
+
+func (self *GeocodeResult) Error() string {
+	if len(self.Results) > 0 {
+		if self.Results[0].Error != nil {
+			return self.Results[0].Error.Message
+		}
+	}
+	return ""
+}
+
 // ResponseAsString helper to return raw response
 func (self *GeocodeResult) ResponseAsString() string {
+	return string(self.Debug.RawResponse)
+}
+
+func (self *BatchResponse) SaveDebug(requestedURL, status string, statusCode int, body []byte) {
+	self.Debug.RequestedURL = requestedURL
+	self.Debug.Status = status
+	self.Debug.StatusCode = statusCode
+	self.Debug.RawResponse = body
+}
+
+// ResponseAsString helper to return raw response
+func (self *BatchResponse) ResponseAsString() string {
 	return string(self.Debug.RawResponse)
 }
 
 // Geocode single address
 // See: http://geocod.io/docs/#toc_4
 func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
+	resp := GeocodeResult{}
 	if address == "" {
-		return GeocodeResult{}, ErrAddressIsEmpty
+		return resp, ErrAddressIsEmpty
 	}
 
-	resp, err := g.get("/geocode", map[string]string{"q": address})
+	err := g.get("/geocode", map[string]string{"q": address}, &resp)
 	if err != nil {
 		return GeocodeResult{}, err
 	}
@@ -52,15 +104,16 @@ func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
 }
 
 // GeocodeBatch look up addresses
-func (g *Geocodio) GeocodeBatch(addresses ...string) (GeocodeResult, error) {
+func (g *Geocodio) GeocodeBatch(addresses ...string) (BatchResponse, error) {
+	resp := BatchResponse{}
 	if len(addresses) == 0 {
-		return GeocodeResult{}, ErrBatchAddressesIsEmpty
+		return resp, ErrBatchAddressesIsEmpty
 	}
 
 	// TODO: support limit
-	resp, err := g.post("/geocode", addresses, nil)
+	err := g.post("/geocode", addresses, nil, &resp)
 	if err != nil {
-		return GeocodeResult{}, err
+		return BatchResponse{}, err
 	}
 
 	if len(resp.Results) == 0 {
@@ -99,19 +152,20 @@ func (g *Geocodio) GeocodeAndReturnStateLegislativeDistricts(address string) (Ge
 		Each field counts as an additional lookup each
 */
 func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (GeocodeResult, error) {
+	resp := GeocodeResult{}
 	if address == "" {
-		return GeocodeResult{}, errors.New("address can not be empty")
+		return resp, errors.New("address can not be empty")
 	}
 
 	fieldsCommaSeparated := strings.Join(fields, ",")
 
-	resp, err := g.get("/geocode",
+	err := g.get("/geocode",
 		map[string]string{
 			"q":      address,
 			"fields": fieldsCommaSeparated,
-		})
+		}, &resp)
 	if err != nil {
-		return GeocodeResult{}, err
+		return resp, err
 	}
 
 	if len(resp.Results) == 0 {

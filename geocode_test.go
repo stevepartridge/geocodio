@@ -307,14 +307,22 @@ func TestGeocodeInvalidNoResults(t *testing.T) {
 	if err != geocodio.ErrNoResultsFound {
 		t.Error("Expected error", geocodio.ErrNoResultsFound.Error(), "but saw", err.Error())
 	}
+}
 
-	resp, err = gc.GeocodeBatch("123 Nonsense Ln, Nowhere, XX")
-	if err == nil {
-		t.Error("Expected to see an error")
-		fmt.Println(resp.ResponseAsString())
-		return
+func TestGeocodeBatchInvalidNoResults(t *testing.T) {
+	gc, err := geocodio.New()
+	if err != nil {
+		t.Error("Failed with API KEY set.", err)
 	}
 
+	resp, err := gc.GeocodeBatch("123 Nonsense Ln, Nowhere, XX")
+	if err != nil {
+		t.Error("Expected success", err)
+	}
+	if resp.Results[0].Response.Error == "" {
+		t.Error("Expected to see an error")
+		fmt.Println(resp.ResponseAsString())
+	}
 }
 
 // TODO: School District (school)

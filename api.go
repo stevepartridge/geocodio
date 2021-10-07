@@ -21,18 +21,22 @@ const (
 	MethodPost = "POST"
 )
 
-func (g *Geocodio) get(path string, query map[string]string) (GeocodeResult, error) {
-	return g.call(MethodGet, path, nil, query)
+type saver interface {
+	SaveDebug(requestedURL, status string, statusCode int, body []byte)
 }
 
-func (g *Geocodio) post(path string, payload interface{}, query map[string]string) (GeocodeResult, error) {
-	return g.call(MethodPost, path, payload, query)
+func (g *Geocodio) get(path string, query map[string]string, result saver) error {
+	return g.call(MethodGet, path, nil, query, result)
 }
 
-func (g *Geocodio) call(method, path string, payload interface{}, query map[string]string) (GeocodeResult, error) {
+func (g *Geocodio) post(path string, payload interface{}, query map[string]string, result saver) error {
+	return g.call(MethodPost, path, payload, query, result)
+}
+
+func (g *Geocodio) call(method, path string, payload interface{}, query map[string]string, result saver) error {
 
 	if strings.Index(path, "/") != 0 {
-		return GeocodeResult{}, errors.New("Path must start with a forward slash: ' / ' ")
+		return errors.New("Path must start with a forward slash: ' / ' ")
 	}
 
 	rawURL := GeocodioAPIBaseURLv1 + path + "?api_key=" + g.APIKey
@@ -50,7 +54,7 @@ func (g *Geocodio) call(method, path string, payload interface{}, query map[stri
 
 	u, err := url.Parse(rawURL)
 	if err != nil {
-		return GeocodeResult{}, nil
+		return nil
 	}
 
 	if query != nil {
@@ -72,7 +76,7 @@ func (g *Geocodio) call(method, path string, payload interface{}, query map[stri
 	if payload != nil {
 		body, err := json.Marshal(payload)
 		if err != nil {
-			return GeocodeResult{}, err
+			return err
 		}
 
 		req.Body = ioutil.NopCloser(bytes.NewReader(body))
@@ -82,35 +86,21 @@ func (g *Geocodio) call(method, path string, payload interface{}, query map[stri
 
 	resp, err := client.Do(&req)
 	if err != nil {
-		return GeocodeResult{}, err
+		return err
 	}
 
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return GeocodeResult{}, err
+		return err
 	}
-
-	result := GeocodeResult{}
-
-	result.Debug.RequestedURL = u.String()
-	result.Debug.Status = resp.Status
-	result.Debug.StatusCode = resp.StatusCode
-	result.Debug.RawResponse = body
+	result.SaveDebug(u.String(), resp.Status, resp.StatusCode, body)
 
 	err = json.Unmarshal(body, &result)
 	if err != nil {
-		return result, err
+		return err
 	}
 
-	if len(result.Results) > 0 {
-		if result.Results[0].Error != nil {
-			if result.Results[0].Error.Message != "" {
-				return result, errors.New(result.Results[0].Error.Message)
-			}
-		}
-	}
-
-	return result, err
+	return nil
 }
