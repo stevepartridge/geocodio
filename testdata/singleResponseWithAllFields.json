@@ -1670,12 +1670,12 @@
         "state_legislative_districts": {
           "house": {
             "name": "State House District 47",
-            "district_number": 47,
+            "district_number": "47",
             "is_upcoming_state_legislative_district": false
           },
           "senate": {
             "name": "State Senate District 31",
-            "district_number": 31,
+            "district_number": "31",
             "is_upcoming_state_legislative_district": false
           }
         },

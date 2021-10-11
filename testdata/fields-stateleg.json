@@ -2,12 +2,12 @@
   "state_legislative_districts": {
     "house": {
       "name": "Assembly District 42",
-      "district_number": 42,
+      "district_number": "42",
       "is_upcoming_state_legislative_district": false
     },
     "senate": {
       "name": "State Senate District 28",
-      "district_number": 28,
+      "district_number": "28",
       "is_upcoming_state_legislative_district": false
     }
   }

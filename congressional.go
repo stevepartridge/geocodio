@@ -68,5 +68,5 @@ type StateLegislativeDistricts struct {
 
 type StateLegislativeDistrict struct {
 	Name           string `json:"name"`
-	DistrictNumber int    `json:"district_number"`
+	DistrictNumber string `json:"district_number"`
 }

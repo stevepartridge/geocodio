@@ -43,8 +43,9 @@ type Result struct {
 // Geocode single address
 // See: http://geocod.io/docs/#toc_4
 func (g *Geocodio) Geocode(address string) (GeocodeResult, error) {
+	resp := GeocodeResult{}
 	if address == "" {
-		return GeocodeResult{}, ErrAddressIsEmpty
+		return resp, ErrAddressIsEmpty
 	}
 
 	return g.geocode(map[string]string{"q": address})
