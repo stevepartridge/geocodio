@@ -66,40 +66,40 @@ func (g *Geocodio) GeocodeComponents(address InputAddress) (GeocodeResult, error
 }
 
 func (g *Geocodio) geocode(params map[string]string) (GeocodeResult, error) {
-	res := GeocodeResult{}
-	err := g.do("GET", "/geocode", params, nil, &res)
+	resp := GeocodeResult{}
+	err := g.do("GET", "/geocode", params, nil, &resp)
 	if err != nil {
-		return res, err
+		return resp, err
 	}
 
-	if len(res.Results) == 0 {
-		return res, ErrNoResultsFound
+	if len(resp.Results) == 0 {
+		return resp, ErrNoResultsFound
 	}
 
-	return res, nil
+	return resp, nil
 }
 
 // GeocodeBatch lookup list of addresses (either string or InputAddress)
 func (g *Geocodio) GeocodeBatch(addresses ...interface{}) (BatchResponse, error) {
-	res := BatchResponse{}
+	resp := BatchResponse{}
 	if len(addresses) == 0 {
-		return res, ErrBatchAddressesIsEmpty
+		return resp, ErrBatchAddressesIsEmpty
 	}
 	if err := verifyValidAddresses(addresses); err != nil {
-		return res, err
+		return resp, err
 	}
 
 	// TODO: support limit
-	err := g.do("POST", "/geocode", nil, addresses, &res)
+	err := g.do("POST", "/geocode", nil, addresses, &resp)
 	if err != nil {
-		return res, err
+		return resp, err
 	}
 
-	if len(res.Results) == 0 {
-		return res, ErrNoResultsFound
+	if len(resp.Results) == 0 {
+		return resp, ErrNoResultsFound
 	}
 
-	return res, nil
+	return resp, nil
 }
 
 func verifyValidAddresses(addresses []interface{}) error {
@@ -146,9 +146,9 @@ func (g *Geocodio) GeocodeAndReturnStateLegislativeDistricts(address string) (Ge
 		Each field counts as an additional lookup each
 */
 func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (GeocodeResult, error) {
-	res := GeocodeResult{}
+	resp := GeocodeResult{}
 	if address == "" {
-		return res, errors.New("address can not be empty")
+		return resp, errors.New("address can not be empty")
 	}
 
 	fieldsCommaSeparated := strings.Join(fields, ",")
@@ -156,14 +156,14 @@ func (g *Geocodio) GeocodeReturnFields(address string, fields ...string) (Geocod
 	err := g.do("GET", "/geocode", map[string]string{
 		"q":      address,
 		"fields": fieldsCommaSeparated,
-	}, nil, &res)
+	}, nil, &resp)
 	if err != nil {
-		return res, err
+		return resp, err
 	}
 
-	if len(res.Results) == 0 {
-		return res, ErrNoResultsFound
+	if len(resp.Results) == 0 {
+		return resp, ErrNoResultsFound
 	}
 
-	return res, nil
+	return resp, nil
 }
