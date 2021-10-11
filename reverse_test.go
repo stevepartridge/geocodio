@@ -1,7 +1,6 @@
 package geocodio_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stevepartridge/geocodio"
@@ -87,7 +86,6 @@ func TestReverseBatchLookup(t *testing.T) {
 		AddressTestTwoLatitude, AddressTestTwoLongitude,
 		AddressTestThreeLatitude, AddressTestThreeLongitude,
 	)
-	fmt.Println(result.ResponseAsString())
 	if err != nil {
 		t.Error(err)
 	}

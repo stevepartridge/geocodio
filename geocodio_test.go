@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/mypricehealth/jsonassert"
 	"github.com/stevepartridge/geocodio"
 )
 
@@ -56,12 +57,7 @@ func TestGeocodioWithApiKey(t *testing.T) {
 func TestGeocodioWithoutApiKey(t *testing.T) {
 
 	key := os.Getenv(geocodio.EnvGeocodioAPIKey)
-	if key == "" && os.Getenv(geocodio.EnvOldAPIKey) != "" {
-		key = os.Getenv(geocodio.EnvOldAPIKey)
-	}
-
 	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
-	os.Setenv(geocodio.EnvOldAPIKey, "")
 
 	_, err := geocodio.New()
 	if err == nil {
@@ -72,14 +68,8 @@ func TestGeocodioWithoutApiKey(t *testing.T) {
 }
 
 func TestGeocodioWithoutApiKeyEnvAndEmptyString(t *testing.T) {
-
 	key := os.Getenv(geocodio.EnvGeocodioAPIKey)
-	if key == "" && os.Getenv(geocodio.EnvOldAPIKey) != "" {
-		key = os.Getenv(geocodio.EnvOldAPIKey)
-	}
-
 	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
-	os.Setenv(geocodio.EnvOldAPIKey, "")
 
 	_, err := geocodio.New("")
 	if err == nil {
@@ -89,29 +79,22 @@ func TestGeocodioWithoutApiKeyEnvAndEmptyString(t *testing.T) {
 	os.Setenv(geocodio.EnvGeocodioAPIKey, key)
 }
 
-func TestGeocodioDeprecatedWithApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio(os.Getenv(geocodio.EnvGeocodioAPIKey))
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
-}
-
-func TestGeocodioDeprecatedWithoutApiKey(t *testing.T) {
-	_, err := geocodio.NewGeocodio("")
-	if err == nil {
-		t.Error("Expected error:", geocodio.ErrMissingAPIKey, " but did not see any error")
-	}
-}
-
-func TestGeocodioWithOldApiKey(t *testing.T) {
-	os.Setenv(geocodio.EnvOldAPIKey, os.Getenv(geocodio.EnvGeocodioAPIKey))
-	os.Setenv(geocodio.EnvGeocodioAPIKey, "")
-
-	_, err := geocodio.New()
-	if err != nil {
-		t.Error("Failed with API KEY set.", err)
-	}
-
-	os.Setenv(geocodio.EnvGeocodioAPIKey, os.Getenv(geocodio.EnvOldAPIKey))
-	os.Setenv(geocodio.EnvOldAPIKey, "")
+func TestVerifyStructs(t *testing.T) {
+	jsonassert.StructCheck(t, "testdata/batchResponse.json", &geocodio.BatchResponse{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-demographics.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-economics.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-families.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-housing.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-social.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-cd.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-census.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-riding.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-school (unified).json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-school.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-statcan.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-stateleg.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-timezone.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-zip4.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/singleResponse.json", &geocodio.GeocodeResult{})
+	jsonassert.StructCheck(t, "testdata/singleResponseWithAllFields.json", &geocodio.GeocodeResult{})
 }

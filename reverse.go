@@ -20,7 +20,7 @@ func (g *Geocodio) Reverse(latitude, longitude float64) (GeocodeResult, error) {
 	lngStr := strconv.FormatFloat(longitude, 'f', 9, 64)
 
 	resp := GeocodeResult{}
-	err := g.get("/reverse", map[string]string{"q": latStr + "," + lngStr}, &resp)
+	err := g.do("GET", "/reverse", map[string]string{"q": latStr + "," + lngStr}, nil, &resp)
 	if err != nil {
 		return resp, err
 	}
@@ -74,7 +74,7 @@ func (g *Geocodio) ReverseBatch(latlngs ...float64) (BatchResponse, error) {
 		pair = coord
 	}
 
-	err := g.post("/reverse", payload, nil, &resp)
+	err := g.do("POST", "/reverse", nil, payload, &resp)
 	if err != nil {
 		return resp, err
 	}

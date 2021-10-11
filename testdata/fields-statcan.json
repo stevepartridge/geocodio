@@ -1,0 +1,35 @@
+{
+  "statcan": {
+    "division": {
+      "id": "2466",
+      "name": "Montréal",
+      "type": "TÉ",
+      "type_description": "Territoire équivalent"
+    },
+    "consolidated_subdivision": {
+      "id": "2466023",
+      "name": "Montréal"
+    },
+    "subdivision": {
+      "id": "2466023",
+      "name": "Montréal",
+      "type": "V",
+      "type_description": "Ville"
+    },
+    "economic_region": "Montréal",
+    "statistical_area": {
+      "code": "462",
+      "code_description": "CMA or CA",
+      "type": "1",
+      "type_description": "Census subdivision within census metropolitan area"
+    },
+    "cma_ca": {
+      "id": "462",
+      "name": "Montréal",
+      "type": "B",
+      "type_description": "Census metropolitan area (CMA)"
+    },
+    "tract": "4620415.04",
+    "census_year": 2016
+  }
+}

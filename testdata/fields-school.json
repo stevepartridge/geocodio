@@ -1,0 +1,16 @@
+{
+  "school_districts": {
+    "elementary": {
+      "name": "Topsfield School District",
+      "lea_code": "11670",
+      "grade_low": "PK",
+      "grade_high": "06"
+    },
+    "secondary": {
+      "name": "Masconomet School District",
+      "lea_code": "07410",
+      "grade_low": "07",
+      "grade_high": "12"
+    }
+  }
+}
