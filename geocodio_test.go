@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/mypricehealth/jsonassert"
 	"github.com/stevepartridge/geocodio"
 )
 
@@ -76,4 +77,24 @@ func TestGeocodioWithoutApiKeyEnvAndEmptyString(t *testing.T) {
 	}
 
 	os.Setenv(geocodio.EnvGeocodioAPIKey, key)
+}
+
+func TestVerifyStructs(t *testing.T) {
+	jsonassert.StructCheck(t, "testdata/batchResponse.json", &geocodio.BatchResponse{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-demographics.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-economics.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-families.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-housing.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-acs-social.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-cd.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-census.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-riding.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-school (unified).json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-school.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-statcan.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-stateleg.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-timezone.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/fields-zip4.json", &geocodio.Fields{})
+	jsonassert.StructCheck(t, "testdata/singleResponse.json", &geocodio.GeocodeResult{})
+	jsonassert.StructCheck(t, "testdata/singleResponseWithAllFields.json", &geocodio.GeocodeResult{})
 }

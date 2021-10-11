@@ -51,9 +51,9 @@ type CensusACS struct {
 }
 
 type Economics struct {
-	NumberOfHouseholds    NumberOfHouseholds    `json:"Number of households"`
-	MedianHouseholdIncome MedianHouseholdIncome `json:"Median household income"`
-	HouseholdIncome       HouseholdIncome       `json:"Household income"`
+	NumberOfHouseholds    NumberOfHouseholds         `json:"Number of households"`
+	MedianHouseholdIncome MedianHouseholdIncome      `json:"Median household income"`
+	HouseholdIncome       map[string]CensusDataPoint `json:"Household income"` // use map since Go tags cannot have "," in them
 }
 
 type NumberOfHouseholds struct {
@@ -64,26 +64,6 @@ type NumberOfHouseholds struct {
 type MedianHouseholdIncome struct {
 	Meta  CensusMeta      `json:"meta"`
 	Total CensusDataPoint `json:"Total"`
-}
-
-type HouseholdIncome struct {
-	Meta                 CensusMeta      `json:"meta"`
-	LessThan10000        CensusDataPoint `json:"Less than $10,000"`
-	Income10000to14999   CensusDataPoint `json:"$10,000 to $14,999"`
-	Income15000to19999   CensusDataPoint `json:"$15,000 to $19,999"`
-	Income20000to24999   CensusDataPoint `json:"$20,000 to $24,999"`
-	Income25000to29999   CensusDataPoint `json:"$25,000 to $29,999"`
-	Income30000to34999   CensusDataPoint `json:"$30,000 to $34,999"`
-	Income35000to39999   CensusDataPoint `json:"$35,000 to $39,999"`
-	Income40000to44999   CensusDataPoint `json:"$40,000 to $44,999"`
-	Income45000to49999   CensusDataPoint `json:"$45,000 to $49,999"`
-	Income50000to59000   CensusDataPoint `json:"$50,000 to $59,999"`
-	Income60000to74999   CensusDataPoint `json:"$60,000 to $74,999"`
-	Income75000to99999   CensusDataPoint `json:"$75,000 to $99,999"`
-	Income100000to124999 CensusDataPoint `json:"$100,000 to $124,999"`
-	Income125000to149000 CensusDataPoint `json:"$125,000 to $149,999"`
-	Income150000to199999 CensusDataPoint `json:"$150,000 to $199,999"`
-	Income200000orMore   CensusDataPoint `json:"$200,000 or more"`
 }
 
 type Demographic struct {

@@ -81,7 +81,7 @@ func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
 	}
 
 	if len(result.Results[0].Fields.CongressionalDistricts) == 0 {
-		t.Error("Congressional District field not found", result.Results[0].Fields.CongressionalDistrict)
+		t.Error("Congressional District field not found", result.Results[0].Fields.CongressionalDistricts)
 		t.Fail()
 	}
 
@@ -91,7 +91,7 @@ func TestGeocodeFullAddressReturningCongressionalDistrict(t *testing.T) {
 	}
 
 	if result.Results[0].Fields.CongressionalDistricts[0].DistrictNumber != 8 {
-		t.Error("Congressional District field does not match", result.Results[0].Fields.CongressionalDistrict)
+		t.Error("Congressional District field does not match", result.Results[0].Fields.CongressionalDistricts)
 		t.Fail()
 	}
 }
@@ -125,12 +125,12 @@ func TestGeocodeFullAddressReturningStateLegislativeDistricts(t *testing.T) {
 		t.Fail()
 	}
 
-	if result.Results[0].Fields.StateLegislativeDistricts.House.DistrictNumber != "47" {
+	if result.Results[0].Fields.StateLegislativeDistricts.House.DistrictNumber != 47 {
 		t.Error("State Legislative Districts house does not match", result.Results[0].Fields.StateLegislativeDistricts.House)
 		t.Fail()
 	}
 
-	if result.Results[0].Fields.StateLegislativeDistricts.Senate.DistrictNumber != "31" {
+	if result.Results[0].Fields.StateLegislativeDistricts.Senate.DistrictNumber != 31 {
 		t.Error("State Legislative Districts senate does not match", result.Results[0].Fields.StateLegislativeDistricts.Senate)
 		t.Fail()
 	}
@@ -170,19 +170,16 @@ func TestGeocodeFullAddressReturningMultipleFields(t *testing.T) {
 
 	congressionalDistrict := geocodio.CongressionalDistrict{}
 
-	// check congressional district
-	if result.Results[0].Fields.CongressionalDistrict.Name != "" {
-		congressionalDistrict = result.Results[0].Fields.CongressionalDistrict
-	} else if len(result.Results[0].Fields.CongressionalDistricts) > 0 {
+	if len(result.Results[0].Fields.CongressionalDistricts) > 0 {
 		congressionalDistrict = result.Results[0].Fields.CongressionalDistricts[0]
 	}
 
 	if congressionalDistrict.Name == "" {
-		t.Error("Congressional District field not found", congressionalDistrict)
+		t.Error("Congressional District field not found", congressionalDistrict.Name)
 	}
 
 	if congressionalDistrict.DistrictNumber != 8 {
-		t.Error("Congressional District field does not match", result.Results[0].Fields.CongressionalDistrict)
+		t.Error("Congressional District field does not match", congressionalDistrict.DistrictNumber)
 	}
 
 }

@@ -1,0 +1,10 @@
+{
+  "school_districts": {
+    "unified": {
+      "name": "Desert Sands Unified School District",
+      "lea_code": "11110",
+      "grade_low": "KG",
+      "grade_high": "12"
+    }
+  }
+}

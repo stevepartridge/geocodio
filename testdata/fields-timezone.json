@@ -1,0 +1,9 @@
+{
+  "timezone": {
+    "name": "America/New_York",
+    "utc_offset": -5,
+    "observes_dst": true,
+    "abbreviation": "EST",
+    "source": "© OpenStreetMap contributors"
+  }
+}

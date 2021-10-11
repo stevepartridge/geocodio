@@ -1,0 +1,117 @@
+{
+  "acs": {
+    "meta": {
+      "source": "American Community Survey from the US Census Bureau",
+      "survey_years": "2015-2019",
+      "survey_duration_years": "5"
+    },
+    "economics": {
+      "Number of households": {
+        "meta": {
+          "table_id": "B19001",
+          "universe": "Households"
+        },
+        "Total": {
+          "value": 1999,
+          "margin_of_error": 87
+        }
+      },
+      "Median household income": {
+        "meta": {
+          "table_id": "B19013",
+          "universe": "Households"
+        },
+        "Total": {
+          "value": 158656,
+          "margin_of_error": 9227
+        }
+      },
+      "Household income": {
+        "meta": {
+          "table_id": "B19001",
+          "universe": "Households"
+        },
+        "Less than $10,000": {
+          "value": 24,
+          "margin_of_error": 26,
+          "percentage": 0.012
+        },
+        "$10,000 to $14,999": {
+          "value": 20,
+          "margin_of_error": 22,
+          "percentage": 0.01
+        },
+        "$15,000 to $19,999": {
+          "value": 0,
+          "margin_of_error": 12,
+          "percentage": 0
+        },
+        "$20,000 to $24,999": {
+          "value": 18,
+          "margin_of_error": 26,
+          "percentage": 0.009
+        },
+        "$25,000 to $29,999": {
+          "value": 10,
+          "margin_of_error": 16,
+          "percentage": 0.005
+        },
+        "$30,000 to $34,999": {
+          "value": 0,
+          "margin_of_error": 12,
+          "percentage": 0
+        },
+        "$35,000 to $39,999": {
+          "value": 0,
+          "margin_of_error": 12,
+          "percentage": 0
+        },
+        "$40,000 to $44,999": {
+          "value": 0,
+          "margin_of_error": 12,
+          "percentage": 0
+        },
+        "$45,000 to $49,999": {
+          "value": 49,
+          "margin_of_error": 55,
+          "percentage": 0.025
+        },
+        "$50,000 to $59,999": {
+          "value": 10,
+          "margin_of_error": 15,
+          "percentage": 0.005
+        },
+        "$60,000 to $74,999": {
+          "value": 87,
+          "margin_of_error": 49,
+          "percentage": 0.044
+        },
+        "$75,000 to $99,999": {
+          "value": 175,
+          "margin_of_error": 71,
+          "percentage": 0.088
+        },
+        "$100,000 to $124,999": {
+          "value": 275,
+          "margin_of_error": 100,
+          "percentage": 0.138
+        },
+        "$125,000 to $149,999": {
+          "value": 223,
+          "margin_of_error": 88,
+          "percentage": 0.112
+        },
+        "$150,000 to $199,999": {
+          "value": 461,
+          "margin_of_error": 111,
+          "percentage": 0.231
+        },
+        "$200,000 or more": {
+          "value": 647,
+          "margin_of_error": 142,
+          "percentage": 0.324
+        }
+      }
+    }
+  }
+}

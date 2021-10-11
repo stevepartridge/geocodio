@@ -2,7 +2,7 @@ package geocodio
 
 // Zip4 based on this payload example
 type Zip4 struct {
-	RecodeType         RecordType   `json:"record_type,omitempty"`
+	RecordType         RecordType   `json:"record_type,omitempty"`
 	CarrierRoute       CarrierRoute `json:"carrier_route,omitempty"`
 	BuildingOrFirmName string       `json:"building_or_firm_name,omitempty"`
 	Plus4              []string     `json:"plus4,omitempty"`

@@ -3,7 +3,7 @@ package geocodio
 type SchoolDistricts struct {
 	Unified    SchoolDistrict `json:"unified"`
 	Elementary SchoolDistrict `json:"elementary"`
-	Secondar   SchoolDistrict `json:"secondary"`
+	Secondary  SchoolDistrict `json:"secondary"`
 }
 
 // SchoolDistrict field

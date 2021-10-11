@@ -1,0 +1,222 @@
+{
+  "acs": {
+    "meta": {
+      "source": "American Community Survey from the US Census Bureau",
+      "survey_years": "2015-2019",
+      "survey_duration_years": "5"
+    },
+    "families": {
+      "Household type by household": {
+        "meta": {
+          "table_id": "B11001",
+          "universe": "Households"
+        },
+        "Total": {
+          "value": 1999,
+          "margin_of_error": 87
+        },
+        "Family households": {
+          "value": 689,
+          "margin_of_error": 138,
+          "percentage": 0.345
+        },
+        "Family households: Married-couple family": {
+          "value": 585,
+          "margin_of_error": 116,
+          "percentage": 0.849
+        },
+        "Family households: Other family": {
+          "value": 104,
+          "margin_of_error": 78,
+          "percentage": 0.151
+        },
+        "Family households: Other family: Male householder, no spouse present": {
+          "value": 51,
+          "margin_of_error": 67,
+          "percentage": 0.49
+        },
+        "Family households: Other family: Female householder, no spouse present": {
+          "value": 53,
+          "margin_of_error": 33,
+          "percentage": 0.51
+        },
+        "Nonfamily households": {
+          "value": 1310,
+          "margin_of_error": 139,
+          "percentage": 0.655
+        },
+        "Nonfamily households: Householder living alone": {
+          "value": 836,
+          "margin_of_error": 134,
+          "percentage": 0.638
+        },
+        "Nonfamily households: Householder not living alone": {
+          "value": 474,
+          "margin_of_error": 109,
+          "percentage": 0.362
+        }
+      },
+      "Household type by population": {
+        "meta": {
+          "table_id": "B11002",
+          "universe": "Population in Households"
+        },
+        "Total": {
+          "value": 3664,
+          "margin_of_error": 320
+        },
+        "In family households": {
+          "value": 1799,
+          "margin_of_error": 379,
+          "percentage": 0.491
+        },
+        "In family households: In married-couple family": {
+          "value": 1539,
+          "margin_of_error": 323,
+          "percentage": 0.855
+        },
+        "In family households: In married-couple family: Relatives": {
+          "value": 1539,
+          "margin_of_error": 323,
+          "percentage": 1
+        },
+        "In family households: In married-couple family: Nonrelatives": {
+          "value": 0,
+          "margin_of_error": 12,
+          "percentage": 0
+        },
+        "In family households: In male householder, no spouse present, family": {
+          "value": 112,
+          "margin_of_error": 144,
+          "percentage": 0.062
+        },
+        "In family households: In male householder, no spouse present, family: Relatives": {
+          "value": 110,
+          "margin_of_error": 144,
+          "percentage": 0.982
+        },
+        "In family households: In male householder, no spouse present, family: Nonrelatives": {
+          "value": 2,
+          "margin_of_error": 5,
+          "percentage": 0.018
+        },
+        "In family households: In female householder, no spouse present, family": {
+          "value": 148,
+          "margin_of_error": 95,
+          "percentage": 0.082
+        },
+        "In family households: In female householder, no spouse present, family: Relatives": {
+          "value": 138,
+          "margin_of_error": 86,
+          "percentage": 0.932
+        },
+        "In family households: In female householder, no spouse present, family: Nonrelatives": {
+          "value": 10,
+          "margin_of_error": 16,
+          "percentage": 0.068
+        },
+        "In nonfamily households": {
+          "value": 1865,
+          "margin_of_error": 234,
+          "percentage": 0.509
+        }
+      },
+      "Marital status": {
+        "meta": {
+          "table_id": "B12001",
+          "universe": "Population 15 Years And Older"
+        },
+        "Male": {
+          "value": 1681,
+          "margin_of_error": 162,
+          "percentage": 0.514
+        },
+        "Male: Never married": {
+          "value": 911,
+          "margin_of_error": 166,
+          "percentage": 0.542
+        },
+        "Male: Now married": {
+          "value": 672,
+          "margin_of_error": 135,
+          "percentage": 0.4
+        },
+        "Male: Now married: Married, spouse present": {
+          "value": 588,
+          "margin_of_error": 113,
+          "percentage": 0.875
+        },
+        "Male: Now married: Married, spouse absent": {
+          "value": 84,
+          "margin_of_error": 73,
+          "percentage": 0.125
+        },
+        "Male: Now married: Married, spouse absent: Separated": {
+          "value": 7,
+          "margin_of_error": 12,
+          "percentage": 0.083
+        },
+        "Male: Now married: Married, spouse absent: Other": {
+          "value": 77,
+          "margin_of_error": 72,
+          "percentage": 0.917
+        },
+        "Male: Widowed": {
+          "value": 0,
+          "margin_of_error": 12,
+          "percentage": 0
+        },
+        "Male: Divorced": {
+          "value": 98,
+          "margin_of_error": 53,
+          "percentage": 0.058
+        },
+        "Female": {
+          "value": 1590,
+          "margin_of_error": 152,
+          "percentage": 0.486
+        },
+        "Female: Never married": {
+          "value": 827,
+          "margin_of_error": 129,
+          "percentage": 0.52
+        },
+        "Female: Now married": {
+          "value": 566,
+          "margin_of_error": 111,
+          "percentage": 0.356
+        },
+        "Female: Now married: Married, spouse present": {
+          "value": 553,
+          "margin_of_error": 109,
+          "percentage": 0.977
+        },
+        "Female: Now married: Married, spouse absent": {
+          "value": 13,
+          "margin_of_error": 19,
+          "percentage": 0.023
+        },
+        "Female: Now married: Married, spouse absent: Separated": {
+          "value": 0,
+          "margin_of_error": 12,
+          "percentage": 0
+        },
+        "Female: Now married: Married, spouse absent: Other": {
+          "value": 13,
+          "margin_of_error": 19,
+          "percentage": 1
+        },
+        "Female: Widowed": {
+          "value": 26,
+          "margin_of_error": 29,
+          "percentage": 0.016
+        },
+        "Female: Divorced": {
+          "value": 171,
+          "margin_of_error": 67,
+          "percentage": 0.108
+        }
+      }
+    }
+  }
+}

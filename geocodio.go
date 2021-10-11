@@ -26,6 +26,16 @@ type Input struct {
 	FormattedAddress  string     `json:"formatted_address"`
 }
 
+// InputAddress contains the address components available
+// for either a single address request or a batch request
+type InputAddress struct {
+	Street     string `json:"street"`
+	City       string `json:"city"`
+	State      string `json:"state"`
+	PostalCode string `json:"postal_code"`
+	Country    string `json:"country"`
+}
+
 type Address struct {
 	Query        string     `json:"query"`
 	Components   Components `json:"address_components"`
@@ -64,12 +74,13 @@ type Location struct {
 type Fields struct {
 	Timezone                  Timezone                  `json:"timezone,omitempty"`
 	Zip4                      Zip4                      `json:"zip4,omitempty"`
-	CongressionalDistrict     CongressionalDistrict     `json:"congressional_district,omitempty"`  // v1.0
 	CongressionalDistricts    []CongressionalDistrict   `json:"congressional_districts,omitempty"` // v1.1+
 	StateLegislativeDistricts StateLegislativeDistricts `json:"state_legislative_districts,omitempty"`
 	SchoolDistricts           SchoolDistricts           `json:"school_districts,omitempty"`
 	Census                    CensusResults             `json:"census,omitempty"`
 	ACS                       CensusACS                 `json:"acs,omitempty"`
+	Riding                    Riding                    `json:"riding,omitempty"`
+	Statcan                   Statcan                   `json:"statcan,omitempty"`
 }
 
 // New creates a Geocodio instance based on an API key in either the environment
